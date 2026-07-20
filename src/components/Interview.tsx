@@ -17,14 +17,17 @@ export function Interview() {
           </p>
         </ScrollReveal>
 
-        <div className="mt-10 grid gap-4 md:grid-cols-3">
-          {interviews.map((item, i) => (
-            <ScrollReveal key={item.q} delay={i * 0.08}>
-              <article className="glass glass-interactive h-full rounded-[var(--radius)] p-5 sm:p-6">
-                <h3 className="relative z-[1] text-sm font-semibold text-[var(--accent)]">Q. {item.q}</h3>
-                <p className="relative z-[1] mt-3 text-sm leading-relaxed text-[var(--text-soft)]">{item.a}</p>
-              </article>
-            </ScrollReveal>
+        <div className="mt-10 grid gap-4 md:grid-cols-3" data-stagger>
+          {interviews.map((item) => (
+            <article
+              key={item.q}
+              data-stagger-item
+              data-cursor="drop"
+              className="glass glass-interactive h-full rounded-[var(--radius)] p-5 sm:p-6"
+            >
+              <h3 className="relative z-[1] text-sm font-semibold text-[var(--accent)]">Q. {item.q}</h3>
+              <p className="relative z-[1] mt-3 text-sm leading-relaxed text-[var(--text-soft)]">{item.a}</p>
+            </article>
           ))}
         </div>
       </div>

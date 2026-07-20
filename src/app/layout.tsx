@@ -1,18 +1,20 @@
 import type { Metadata } from "next";
-import { Syne, Noto_Sans_KR } from "next/font/google";
+import { Roboto, Noto_Sans_KR } from "next/font/google";
 import "./globals.css";
 import { site } from "@/data/portfolio";
+import { CursorFX } from "@/components/CursorFX";
+import { ScrollProvider } from "@/components/ScrollProvider";
 
-const display = Syne({
-  variable: "--font-display",
+const roboto = Roboto({
+  variable: "--font-roboto",
   subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
+  weight: ["300", "400", "500", "700"],
 });
 
-const body = Noto_Sans_KR({
-  variable: "--font-body",
+const noto = Noto_Sans_KR({
+  variable: "--font-noto",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["300", "400", "500", "700"],
 });
 
 export const metadata: Metadata = {
@@ -32,8 +34,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className={`${display.variable} ${body.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+    <html lang="ko" className={`${roboto.variable} ${noto.variable} h-full antialiased`}>
+      <body className="min-h-full flex flex-col font-sans">
+        <CursorFX />
+        <ScrollProvider />
+        {children}
+      </body>
     </html>
   );
 }

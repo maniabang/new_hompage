@@ -3,7 +3,10 @@
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { site } from "@/data/portfolio";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export function Hero() {
   const rootRef = useRef<HTMLElement>(null);
@@ -15,34 +18,42 @@ export function Hero() {
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-      tl.from("[data-hero='brand']", { y: 40, autoAlpha: 0, duration: 1 })
-        .from("[data-hero='line']", { y: 28, autoAlpha: 0, duration: 0.8 }, "-=0.55")
-        .from("[data-hero='desc']", { y: 20, autoAlpha: 0, duration: 0.7 }, "-=0.45")
-        .from("[data-hero='cta']", { y: 16, autoAlpha: 0, duration: 0.6 }, "-=0.4")
-        .from("[data-hero='visual']", { scale: 1.06, autoAlpha: 0, duration: 1.1 }, "-=0.9");
+      tl.from("[data-hero='brand']", { y: 48, autoAlpha: 0, duration: 1.05 })
+        .from("[data-hero='line']", { y: 32, autoAlpha: 0, duration: 0.85 }, "-=0.55")
+        .from("[data-hero='desc']", { y: 24, autoAlpha: 0, duration: 0.75 }, "-=0.45")
+        .from("[data-hero='cta'] a", { y: 18, autoAlpha: 0, stagger: 0.08, duration: 0.6 }, "-=0.4")
+        .from("[data-hero='visual']", { scale: 1.08, autoAlpha: 0, duration: 1.2 }, "-=1");
+
+      gsap.to("[data-hero='visual-img']", {
+        yPercent: 18,
+        ease: "none",
+        scrollTrigger: {
+          trigger: root,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
     }, root);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section
-      id="top"
-      ref={rootRef}
-      className="relative min-h-[100svh] overflow-hidden"
-      aria-label="Hero"
-    >
+    <section id="top" ref={rootRef} className="relative min-h-[100svh] overflow-hidden" aria-label="Hero">
       <div className="absolute inset-0" data-hero="visual">
-        <Image
-          src="/images/IMG_1505.JPG"
-          alt=""
-          fill
-          priority
-          className="object-cover object-[center_20%] opacity-45"
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[rgba(12,18,24,0.35)] via-[rgba(12,18,24,0.55)] to-[var(--bg-deep)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_40%,rgba(62,207,186,0.18),transparent_55%)]" />
+        <div className="absolute inset-0 overflow-hidden" data-hero="visual-img">
+          <Image
+            src="/images/IMG_1505.JPG"
+            alt=""
+            fill
+            priority
+            className="scale-105 object-cover object-[58%_28%] opacity-55 sm:object-[54%_24%] lg:object-[50%_22%] lg:opacity-50"
+            sizes="100vw"
+          />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-[rgba(12,18,24,0.2)] via-[rgba(12,18,24,0.45)] to-[var(--bg-deep)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_35%_35%,rgba(62,207,186,0.16),transparent_55%)]" />
       </div>
 
       <div
@@ -67,6 +78,7 @@ export function Hero() {
         <div data-hero="cta" className="mt-8 flex flex-wrap gap-3">
           <a
             href="#work"
+            data-cursor="drop"
             className="rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[#06221e] transition hover:brightness-110"
           >
             경력 보기
@@ -75,6 +87,7 @@ export function Hero() {
             href={site.resumeUrl}
             target="_blank"
             rel="noopener noreferrer"
+            data-cursor="drop"
             className="rounded-full border border-white/20 bg-white/5 px-5 py-3 text-sm font-semibold text-white backdrop-blur-md transition hover:bg-white/10"
           >
             이력서 노션

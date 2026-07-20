@@ -1,4 +1,3 @@
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css");
 @import "tailwindcss";
 
 :root {
@@ -22,8 +21,8 @@
 @theme inline {
   --color-background: var(--bg-deep);
   --color-foreground: var(--text);
-  --font-sans: "Pretendard Variable", var(--font-body), sans-serif;
-  --font-display: var(--font-display), "Pretendard Variable", sans-serif;
+  --font-sans: var(--font-roboto), var(--font-noto), sans-serif;
+  --font-display: var(--font-roboto), var(--font-noto), sans-serif;
 }
 
 * {
@@ -32,6 +31,17 @@
 
 html {
   scroll-behavior: smooth;
+}
+
+html.has-cursor-fx,
+html.has-cursor-fx body {
+  cursor: none;
+}
+
+html.has-cursor-fx a,
+html.has-cursor-fx button,
+html.has-cursor-fx [data-cursor="drop"] {
+  cursor: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -45,6 +55,13 @@ html {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  html.has-cursor-fx,
+  html.has-cursor-fx body,
+  html.has-cursor-fx a,
+  html.has-cursor-fx button {
+    cursor: auto;
   }
 }
 
@@ -122,4 +139,71 @@ a {
 .reveal.is-visible {
   opacity: 1;
   transform: none;
+}
+
+.cursor-blob {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9998;
+  width: 42px;
+  height: 42px;
+  margin: -21px 0 0 -21px;
+  border-radius: 999px;
+  pointer-events: none;
+  opacity: 0.28;
+  background: radial-gradient(
+    circle at 35% 30%,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(62, 207, 186, 0.28) 38%,
+    rgba(62, 207, 186, 0.05) 70%,
+    transparent 75%
+  );
+  filter: blur(0.2px);
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 18px;
+  height: 18px;
+  margin: -9px 0 0 -9px;
+  border-radius: 999px;
+  pointer-events: none;
+  opacity: 0.45;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow:
+    0 0 0 4px rgba(62, 207, 186, 0.08),
+    inset 0 0 10px rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(2px);
+  will-change: transform;
+}
+
+.cursor-ripple {
+  position: fixed;
+  z-index: 9997;
+  width: 28px;
+  height: 28px;
+  margin: -14px 0 0 -14px;
+  border-radius: 999px;
+  pointer-events: none;
+  border: 1px solid rgba(62, 207, 186, 0.55);
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(62, 207, 186, 0.12) 40%,
+    transparent 70%
+  );
+  box-shadow: 0 0 24px rgba(62, 207, 186, 0.25);
+}
+
+@media (pointer: coarse) {
+  .cursor-blob,
+  .cursor-ring {
+    display: none !important;
+  }
 }

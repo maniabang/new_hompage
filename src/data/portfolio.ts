@@ -8,7 +8,7 @@ export const site = {
   resumeUrl:
     "https://maniabang.notion.site/9c480cc642b24f5f8d28f891f7e8a581",
   githubUrl: "https://github.com/maniabang",
-  email: "maniabang@gmail.com",
+  email: "madmanno@naver.com",
   ogImage: "/images/IMG_1505.JPG",
 } as const;
 

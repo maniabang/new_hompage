@@ -1,32 +1,36 @@
 import { ThemeToggle } from "@/components/ThemeToggle";
-
-const nav = [
-  { href: "#skills", label: "Skills" },
-  { href: "#work", label: "Work" },
-  { href: "#projects", label: "Projects" },
-  { href: "#contact", label: "Contact" },
-] as const;
+import { navItems } from "@/data/nav";
 
 export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--line)] bg-[var(--header-bg)] backdrop-blur-xl">
       <div
-        className="mx-auto flex h-[var(--header-h)] items-center gap-3 px-4 sm:gap-4 sm:px-5"
+        className="mx-auto flex h-[var(--header-h)] items-center justify-center px-4 md:justify-between md:px-5"
         style={{ maxWidth: "var(--page-max)" }}
       >
-        <nav className="-mx-1 flex min-w-0 flex-1 items-center gap-4 overflow-x-auto px-1 text-sm text-[var(--text-soft)] [scrollbar-width:none] sm:gap-7 [&::-webkit-scrollbar]:hidden">
-          {nav.map((item) => (
+        <a
+          href="#top"
+          data-cursor="drop"
+          className="font-[family-name:var(--font-display)] text-[15px] font-bold tracking-[-0.02em] text-[var(--text)] md:hidden"
+        >
+          Portfolio
+        </a>
+
+        <nav className="hidden items-center gap-10 md:flex" aria-label="주요 메뉴">
+          {navItems.map((item) => (
             <a
               key={item.href}
               href={item.href}
               data-cursor="drop"
-              className="relative shrink-0 transition-colors hover:text-[var(--text)] after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-[var(--accent)] after:transition-all hover:after:w-full"
+              className="group relative font-[family-name:var(--font-display)] text-[13px] font-bold uppercase tracking-[0.16em] text-[var(--text)]/70 transition-colors duration-300 hover:text-[var(--text)]"
             >
               {item.label}
+              <span className="absolute -bottom-1.5 left-1/2 h-[2px] w-0 -translate-x-1/2 rounded-full bg-[var(--accent)] transition-all duration-300 group-hover:w-full" />
             </a>
           ))}
         </nav>
-        <div className="shrink-0">
+
+        <div className="hidden shrink-0 md:block">
           <ThemeToggle />
         </div>
       </div>

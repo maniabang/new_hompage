@@ -2,7 +2,7 @@
 
 :root {
   --radius: 20px;
-  --header-h: 64px;
+  --header-h: 68px;
   --page-max: min(1120px, 92vw);
   /* SSR fallback = dark until theme script resolves */
   --bg-deep: #0c1218;

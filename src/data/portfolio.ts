@@ -5,8 +5,6 @@ export const site = {
   headline: "실시간 제품의 속도와 구조를 설계합니다",
   description:
     "트레이딩 터미널과 시장 인텔리전스에서 WebSocket·차트·캐시를 한 흐름으로 맞추고, Next.js로 읽히고 유지되는 UI를 만듭니다.",
-  resumeUrl:
-    "https://maniabang.notion.site/9c480cc642b24f5f8d28f891f7e8a581",
   githubUrl: "https://github.com/maniabang",
   email: "madmanno@naver.com",
   ogImage: "/images/IMG_1505.JPG",

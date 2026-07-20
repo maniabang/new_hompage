@@ -94,14 +94,8 @@ export function Hero() {
           <a href="#work" data-cursor="drop" className="btn-primary">
             경력 보기
           </a>
-          <a
-            href={site.resumeUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            data-cursor="drop"
-            className="btn-ghost"
-          >
-            이력서
+          <a href="#contact" data-cursor="drop" className="btn-ghost">
+            Contact
           </a>
         </div>
       </div>

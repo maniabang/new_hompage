@@ -24,7 +24,7 @@ export function SideProjects() {
               key={project.title}
               data-stagger-item
               data-cursor="drop"
-              className="overflow-hidden rounded-[var(--radius)] border border-white/12 bg-white/[0.04] transition duration-300 hover:-translate-y-1 hover:border-white/20"
+              className="overflow-hidden rounded-[var(--radius)] border border-[var(--line)] bg-[var(--chip-bg)] transition duration-300 hover:-translate-y-1 hover:border-[var(--accent)]"
             >
               <div className="grid gap-0 lg:grid-cols-[1.1fr_0.9fr]">
                 <div className="p-5 sm:p-7">
@@ -41,7 +41,7 @@ export function SideProjects() {
                     {project.stack.map((tag) => (
                       <span
                         key={tag}
-                        className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] text-[var(--text-soft)]"
+                        className="chip"
                       >
                         {tag}
                       </span>
@@ -57,7 +57,7 @@ export function SideProjects() {
                     GitHub ↗
                   </a>
                 </div>
-                <div className="grid grid-cols-2 gap-2 bg-black/20 p-3 sm:p-4">
+                <div className="grid grid-cols-2 gap-2 bg-[color-mix(in_srgb,var(--text)_8%,transparent)] p-3 sm:p-4">
                   {project.images.slice(0, 4).map((src) => (
                     <div key={src} className="relative aspect-[9/16] overflow-hidden rounded-xl">
                       <Image src={src} alt="" fill className="object-cover object-top" sizes="200px" />

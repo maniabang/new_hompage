@@ -17,11 +17,7 @@ export function Contact() {
               협업·포지션 제안은 언제든 환영합니다.
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-              <a
-                href={`mailto:${site.email}`}
-                data-cursor="drop"
-                className="rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[#06221e] transition hover:brightness-110"
-              >
+              <a href={`mailto:${site.email}`} data-cursor="drop" className="btn-primary">
                 {site.email}
               </a>
               <a
@@ -29,7 +25,7 @@ export function Contact() {
                 target="_blank"
                 rel="noopener noreferrer"
                 data-cursor="drop"
-                className="rounded-full border border-white/20 bg-white/5 px-5 py-3 text-sm font-semibold transition hover:bg-white/10"
+                className="btn-ghost"
               >
                 GitHub
               </a>
@@ -38,7 +34,7 @@ export function Contact() {
                 target="_blank"
                 rel="noopener noreferrer"
                 data-cursor="drop"
-                className="rounded-full border border-white/20 bg-white/5 px-5 py-3 text-sm font-semibold transition hover:bg-white/10"
+                className="btn-ghost"
               >
                 이력서
               </a>

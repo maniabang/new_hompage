@@ -48,12 +48,24 @@ export function Hero() {
             alt=""
             fill
             priority
-            className="scale-105 object-cover object-[58%_28%] opacity-55 sm:object-[54%_24%] lg:object-[50%_22%] lg:opacity-50"
+            className="scale-105 object-cover object-[58%_28%] sm:object-[54%_24%] lg:object-[50%_22%]"
+            style={{ opacity: "var(--hero-image-opacity)" }}
             sizes="100vw"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-b from-[rgba(12,18,24,0.2)] via-[rgba(12,18,24,0.45)] to-[var(--bg-deep)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_35%_35%,rgba(62,207,186,0.16),transparent_55%)]" />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to bottom, var(--hero-veil-from), var(--hero-veil-via), var(--bg-deep))",
+          }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background: "radial-gradient(ellipse at 35% 35%, var(--hero-glow), transparent 55%)",
+          }}
+        />
       </div>
 
       <div
@@ -62,13 +74,13 @@ export function Hero() {
       >
         <p
           data-hero="brand"
-          className="mb-4 font-[family-name:var(--font-display)] text-5xl font-extrabold tracking-tight text-white sm:text-7xl md:text-8xl"
+          className="mb-4 font-[family-name:var(--font-display)] text-5xl font-extrabold tracking-tight text-[var(--text)] sm:text-7xl md:text-8xl"
         >
           {site.brand}
         </p>
         <h1
           data-hero="line"
-          className="max-w-2xl text-xl font-medium leading-snug tracking-tight text-white/95 sm:text-2xl md:text-3xl"
+          className="max-w-2xl text-xl font-medium leading-snug tracking-tight text-[var(--text)] sm:text-2xl md:text-3xl"
         >
           {site.headline}
         </h1>
@@ -76,11 +88,7 @@ export function Hero() {
           {site.description}
         </p>
         <div data-hero="cta" className="mt-8 flex flex-wrap gap-3">
-          <a
-            href="#work"
-            data-cursor="drop"
-            className="rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[#06221e] transition hover:brightness-110"
-          >
+          <a href="#work" data-cursor="drop" className="btn-primary">
             경력 보기
           </a>
           <a
@@ -88,7 +96,7 @@ export function Hero() {
             target="_blank"
             rel="noopener noreferrer"
             data-cursor="drop"
-            className="rounded-full border border-white/20 bg-white/5 px-5 py-3 text-sm font-semibold text-white backdrop-blur-md transition hover:bg-white/10"
+            className="btn-ghost"
           >
             이력서 노션
           </a>

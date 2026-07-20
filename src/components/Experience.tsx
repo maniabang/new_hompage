@@ -21,7 +21,7 @@ export function Experience() {
           {experiences.map((exp) => (
             <div key={exp.company}>
               <ScrollReveal>
-                <div className="mb-6 flex flex-col gap-1 border-b border-white/10 pb-4 sm:flex-row sm:items-end sm:justify-between">
+                <div className="mb-6 flex flex-col gap-1 border-b border-[var(--line)] pb-4 sm:flex-row sm:items-end sm:justify-between">
                   <div>
                     <h3 className="font-[family-name:var(--font-display)] text-2xl font-bold">{exp.company}</h3>
                     <p className="mt-1 text-sm text-[var(--text-soft)]">{exp.role}</p>
@@ -46,7 +46,7 @@ export function Experience() {
                       {project.stack.map((tag) => (
                         <span
                           key={tag}
-                          className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] text-[var(--text-soft)]"
+                          className="chip"
                         >
                           {tag}
                         </span>

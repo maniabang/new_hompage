@@ -30,8 +30,8 @@ export function Skills() {
               </h3>
               <ul className="relative z-[1] mt-4 space-y-3">
                 {group.items.map((item) => (
-                  <li key={item.name} className="border-t border-white/10 pt-3 first:border-0 first:pt-0">
-                    <div className="text-sm font-semibold text-white">{item.name}</div>
+                  <li key={item.name} className="border-t border-[var(--line)] pt-3 first:border-0 first:pt-0">
+                    <div className="text-sm font-semibold text-[var(--text)]">{item.name}</div>
                     <p className="mt-1 text-sm leading-relaxed text-[var(--text-muted)]">{item.desc}</p>
                   </li>
                 ))}

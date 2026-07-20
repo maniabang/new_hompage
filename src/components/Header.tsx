@@ -1,3 +1,5 @@
+import { ThemeToggle } from "@/components/ThemeToggle";
+
 const nav = [
   { href: "#skills", label: "Skills" },
   { href: "#work", label: "Work" },
@@ -7,12 +9,12 @@ const nav = [
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-[rgba(12,18,24,0.55)] backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-[var(--line)] bg-[var(--header-bg)] backdrop-blur-xl">
       <div
-        className="mx-auto flex h-[var(--header-h)] items-center justify-center gap-4 px-5 sm:justify-between"
+        className="mx-auto flex h-[var(--header-h)] items-center justify-between gap-4 px-5"
         style={{ maxWidth: "var(--page-max)" }}
       >
-        <nav className="flex flex-wrap items-center justify-center gap-5 text-sm text-[var(--text-soft)] sm:gap-7">
+        <nav className="flex flex-wrap items-center gap-5 text-sm text-[var(--text-soft)] sm:gap-7">
           {nav.map((item) => (
             <a
               key={item.href}
@@ -24,6 +26,7 @@ export function Header() {
             </a>
           ))}
         </nav>
+        <ThemeToggle />
       </div>
     </header>
   );

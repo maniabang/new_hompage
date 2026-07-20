@@ -5,6 +5,7 @@
 ## Stack
 
 - Next.js 16 (App Router) · React 19 · TypeScript
+- Bun (패키지 매니저)
 - Tailwind CSS 4
 - GSAP + ScrollTrigger
 - Liquid glass UI tokens
@@ -13,8 +14,13 @@
 ## Develop
 
 ```bash
-npm install
-npm run dev
+bun install
+bun run dev
+```
+
+```bash
+bun run build
+bun run lint
 ```
 
 ## Structure

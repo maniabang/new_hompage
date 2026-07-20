@@ -33,6 +33,15 @@ export function Contact() {
               >
                 GitHub
               </a>
+              <a
+                href={site.resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-cursor="drop"
+                className="rounded-full border border-white/20 bg-white/5 px-5 py-3 text-sm font-semibold transition hover:bg-white/10"
+              >
+                이력서
+              </a>
             </div>
           </div>
         </ScrollReveal>

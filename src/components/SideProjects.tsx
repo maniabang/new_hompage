@@ -4,7 +4,7 @@ import { ScrollReveal } from "@/components/ScrollReveal";
 
 export function SideProjects() {
   return (
-    <section id="projects" className="px-5 py-20 sm:py-28" aria-labelledby="projects-title">
+    <section id="projects" className="px-4 py-16 sm:px-5 sm:py-28" aria-labelledby="projects-title">
       <div className="mx-auto" style={{ maxWidth: "var(--page-max)" }}>
         <ScrollReveal>
           <h2

@@ -2,9 +2,9 @@ export const site = {
   name: "이광훈",
   role: "프론트엔드 개발자",
   brand: "이광훈",
-  headline: "실시간 데이터가 읽히는 화면을 만듭니다",
+  headline: "실시간 제품의 속도와 구조를 설계합니다",
   description:
-    "트레이딩 터미널·시장 인텔리전스처럼 WebSocket과 시계열이 겹치는 제품에서, 속도와 구조를 함께 설계합니다.",
+    "트레이딩 터미널과 시장 인텔리전스에서 WebSocket·차트·캐시를 한 흐름으로 맞추고, Next.js로 읽히고 유지되는 UI를 만듭니다.",
   resumeUrl:
     "https://maniabang.notion.site/9c480cc642b24f5f8d28f891f7e8a581",
   githubUrl: "https://github.com/maniabang",

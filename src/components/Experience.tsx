@@ -3,7 +3,7 @@ import { ScrollReveal } from "@/components/ScrollReveal";
 
 export function Experience() {
   return (
-    <section id="work" className="px-5 py-20 sm:py-28" aria-labelledby="work-title">
+    <section id="work" className="px-4 py-16 sm:px-5 sm:py-28" aria-labelledby="work-title">
       <div className="mx-auto" style={{ maxWidth: "var(--page-max)" }}>
         <ScrollReveal>
           <h2

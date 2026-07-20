@@ -69,25 +69,28 @@ export function Hero() {
       </div>
 
       <div
-        className="relative mx-auto flex min-h-[100svh] flex-col justify-end px-5 pb-16 pt-[calc(var(--header-h)+2rem)] sm:pb-24"
+        className="relative mx-auto flex min-h-[100svh] w-full flex-col justify-end px-4 pb-14 pt-[calc(var(--header-h)+1.5rem)] sm:px-5 sm:pb-24"
         style={{ maxWidth: "var(--page-max)" }}
       >
         <p
           data-hero="brand"
-          className="mb-4 font-[family-name:var(--font-display)] text-5xl font-extrabold tracking-tight text-[var(--text)] sm:text-7xl md:text-8xl"
+          className="mb-3 font-[family-name:var(--font-display)] text-4xl font-extrabold tracking-tight text-[var(--text)] sm:mb-4 sm:text-7xl md:text-8xl"
         >
           {site.brand}
         </p>
         <h1
           data-hero="line"
-          className="max-w-2xl text-xl font-medium leading-snug tracking-tight text-[var(--text)] sm:text-2xl md:text-3xl"
+          className="max-w-2xl text-lg font-medium leading-snug tracking-tight text-[var(--text)] sm:text-2xl md:text-3xl"
         >
           {site.headline}
         </h1>
-        <p data-hero="desc" className="mt-4 max-w-xl text-sm leading-relaxed text-[var(--text-soft)] sm:text-base">
+        <p
+          data-hero="desc"
+          className="mt-3 max-w-xl text-sm leading-relaxed text-[var(--text-soft)] sm:mt-4 sm:text-base"
+        >
           {site.description}
         </p>
-        <div data-hero="cta" className="mt-8 flex flex-wrap gap-3">
+        <div data-hero="cta" className="mt-7 flex w-full flex-col gap-3 sm:mt-8 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center">
           <a href="#work" data-cursor="drop" className="btn-primary">
             경력 보기
           </a>
@@ -98,7 +101,7 @@ export function Hero() {
             data-cursor="drop"
             className="btn-ghost"
           >
-            이력서 노션
+            이력서
           </a>
         </div>
       </div>

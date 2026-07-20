@@ -235,14 +235,33 @@ a {
   transform: translate3d(4%, 2%, 0);
 }
 
-.btn-primary {
+.btn-primary,
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: 44px;
+  min-height: 44px;
+  padding: 0 1.25rem;
   border-radius: 999px;
-  background: var(--accent);
-  color: var(--accent-fg);
-  padding: 0.75rem 1.25rem;
+  border: 1px solid transparent;
   font-size: 0.875rem;
   font-weight: 600;
-  transition: filter 0.2s ease, transform 0.2s ease;
+  line-height: 1;
+  white-space: nowrap;
+  text-align: center;
+  transition:
+    filter 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-color: var(--accent);
 }
 
 .btn-primary:hover {
@@ -250,19 +269,26 @@ a {
 }
 
 .btn-ghost {
-  border-radius: 999px;
-  border: 1px solid var(--line);
+  border-color: var(--line);
   background: var(--chip-bg);
   color: var(--text);
-  padding: 0.75rem 1.25rem;
-  font-size: 0.875rem;
-  font-weight: 600;
   backdrop-filter: blur(10px);
-  transition: background 0.2s ease, border-color 0.2s ease;
 }
 
 .btn-ghost:hover {
   background: var(--chip-bg-hover);
+}
+
+@media (max-width: 640px) {
+  .btn-primary,
+  .btn-ghost {
+    width: 100%;
+  }
+
+  .btn-primary.btn-email {
+    font-size: 0.8125rem;
+    letter-spacing: -0.01em;
+  }
 }
 
 .chip {

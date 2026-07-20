@@ -3,10 +3,10 @@ import { ScrollReveal } from "@/components/ScrollReveal";
 
 export function Contact() {
   return (
-    <section id="contact" className="px-5 py-20 sm:py-28" aria-labelledby="contact-title">
+    <section id="contact" className="px-4 py-16 sm:px-5 sm:py-28" aria-labelledby="contact-title">
       <div className="mx-auto" style={{ maxWidth: "var(--page-max)" }}>
         <ScrollReveal>
-          <div className="glass rounded-[var(--radius)] px-6 py-10 text-center sm:px-10 sm:py-14" data-cursor="drop">
+          <div className="glass rounded-[var(--radius)] px-5 py-9 text-center sm:px-10 sm:py-14" data-cursor="drop">
             <h2
               id="contact-title"
               className="font-[family-name:var(--font-display)] text-3xl font-bold tracking-tight sm:text-5xl"
@@ -16,8 +16,12 @@ export function Contact() {
             <p className="mx-auto mt-4 max-w-md text-sm text-[var(--text-soft)] sm:text-base">
               협업·포지션 제안은 언제든 환영합니다.
             </p>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-              <a href={`mailto:${site.email}`} data-cursor="drop" className="btn-primary">
+            <div className="mt-8 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+              <a
+                href={`mailto:${site.email}`}
+                data-cursor="drop"
+                className="btn-primary btn-email max-w-full"
+              >
                 {site.email}
               </a>
               <a

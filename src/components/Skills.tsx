@@ -1,9 +1,10 @@
 import { skillGroups } from "@/data/portfolio";
 import { ScrollReveal } from "@/components/ScrollReveal";
+import { MobileCollapse } from "@/components/MobileCollapse";
 
 export function Skills() {
   return (
-    <section id="skills" className="px-4 py-16 sm:px-5 sm:py-28" aria-labelledby="skills-title">
+    <section id="skills" className="px-4 py-12 sm:px-5 sm:py-28" aria-labelledby="skills-title">
       <div className="mx-auto" style={{ maxWidth: "var(--page-max)" }}>
         <ScrollReveal>
           <h2
@@ -17,25 +18,37 @@ export function Skills() {
           </p>
         </ScrollReveal>
 
-        <div className="mt-10 grid gap-5 md:grid-cols-2" data-stagger>
+        <div className="mt-8 grid gap-4 md:mt-10 md:grid-cols-2 md:gap-5" data-stagger>
           {skillGroups.map((group) => (
             <div
               key={group.title}
               data-stagger-item
               data-cursor="drop"
-              className="glass glass-interactive rounded-[var(--radius)] p-5 sm:p-6"
+              className="glass glass-interactive rounded-[var(--radius)] p-4 sm:p-6"
             >
-              <h3 className="relative z-[1] font-[family-name:var(--font-display)] text-xl font-semibold">
+              <h3 className="relative z-[1] font-[family-name:var(--font-display)] text-lg font-semibold sm:text-xl">
                 {group.title}
               </h3>
-              <ul className="relative z-[1] mt-4 space-y-3">
+
+              {/* 모바일: 칩만 */}
+              <div className="relative z-[1] mt-3 flex flex-wrap gap-2 md:hidden">
                 {group.items.map((item) => (
-                  <li key={item.name} className="border-t border-[var(--line)] pt-3 first:border-0 first:pt-0">
-                    <div className="text-sm font-semibold text-[var(--text)]">{item.name}</div>
-                    <p className="mt-1 text-sm leading-relaxed text-[var(--text-muted)]">{item.desc}</p>
-                  </li>
+                  <span key={item.name} className="chip">
+                    {item.name}
+                  </span>
                 ))}
-              </ul>
+              </div>
+
+              <MobileCollapse moreLabel="설명 보기" lessLabel="설명 접기">
+                <ul className="relative z-[1] mt-4 space-y-3">
+                  {group.items.map((item) => (
+                    <li key={item.name} className="border-t border-[var(--line)] pt-3 first:border-0 first:pt-0">
+                      <div className="text-sm font-semibold text-[var(--text)]">{item.name}</div>
+                      <p className="mt-1 text-sm leading-relaxed text-[var(--text-muted)]">{item.desc}</p>
+                    </li>
+                  ))}
+                </ul>
+              </MobileCollapse>
             </div>
           ))}
         </div>

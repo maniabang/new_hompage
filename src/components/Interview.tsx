@@ -1,9 +1,14 @@
+"use client";
+
+import { useState } from "react";
 import { interviews } from "@/data/portfolio";
 import { ScrollReveal } from "@/components/ScrollReveal";
 
 export function Interview() {
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
+
   return (
-    <section className="px-4 py-16 sm:px-5 sm:py-28" aria-labelledby="interview-title">
+    <section className="px-4 py-12 sm:px-5 sm:py-28" aria-labelledby="interview-title">
       <div className="mx-auto" style={{ maxWidth: "var(--page-max)" }}>
         <ScrollReveal>
           <h2
@@ -17,7 +22,40 @@ export function Interview() {
           </p>
         </ScrollReveal>
 
-        <div className="mt-10 grid gap-4 md:grid-cols-3" data-stagger>
+        {/* 모바일: 아코디언 */}
+        <div className="mt-8 space-y-2 md:hidden" data-stagger>
+          {interviews.map((item, i) => {
+            const open = openIndex === i;
+            return (
+              <div
+                key={item.q}
+                data-stagger-item
+                className="glass rounded-[var(--radius)] overflow-hidden"
+              >
+                <button
+                  type="button"
+                  data-cursor="drop"
+                  aria-expanded={open}
+                  onClick={() => setOpenIndex(open ? null : i)}
+                  className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left"
+                >
+                  <span className="text-sm font-semibold text-[var(--accent)]">Q. {item.q}</span>
+                  <span className="shrink-0 text-[var(--text-muted)]" aria-hidden>
+                    {open ? "−" : "+"}
+                  </span>
+                </button>
+                {open ? (
+                  <p className="border-t border-[var(--line)] px-4 pb-4 pt-3 text-sm leading-relaxed text-[var(--text-soft)]">
+                    {item.a}
+                  </p>
+                ) : null}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* 데스크톱: 기존 3열 */}
+        <div className="mt-10 hidden gap-4 md:grid md:grid-cols-3" data-stagger>
           {interviews.map((item) => (
             <article
               key={item.q}

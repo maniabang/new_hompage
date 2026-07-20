@@ -19,7 +19,7 @@ export const interviews = [
   },
   {
     q: "일에서 가장 중요하게 생각하는 것은?",
-    a: "최근 회사에서 멀티거래소 트레이딩 터미널과 시장 인텔리전스 플랫폼을 담당합니다. WebSocket 실시간 스트림·BFF 보안 레이어·Lightweight Charts 시계열 시각화를 한 제품 안에서 맞추고, SSR/ISR · TanStack Query · Supabase로 데이터 갱신 주기와 UI 반응을 분리해 운영 가능한 대시보드 UX를 만드는 것을 우선합니다.",
+    a: "에이엠매니지먼트에서 멀티거래소 트레이딩 터미널과 시장 인텔리전스 플랫폼을 담당했습니다. WebSocket 실시간 스트림·BFF 보안 레이어·Lightweight Charts 시계열 시각화를 한 제품 안에서 맞추고, SSR/ISR · TanStack Query · Supabase로 데이터 갱신 주기와 UI 반응을 분리해 운영 가능한 대시보드 UX를 만드는 것을 우선했습니다.",
   },
   {
     q: "강점은 무엇인가요?",
@@ -123,12 +123,12 @@ export const experiences: Experience[] = [
   {
     company: "에이엠매니지먼트",
     role: "프론트엔드 개발",
-    period: "2025.12 ~ 현재",
+    period: "2025.12 ~ 2026.07",
     projects: [
       {
         title: "가상자산 시장 인텔리전스 대시보드 & 뉴스레터",
         summary:
-          "실시간 코인 시세·매크로 지표·ETF 플로우·RSS 뉴스 큐레이션을 하나의 대시보드로 통합하고, 뉴스레터 구독·발송·유료 결제까지 이어지는 운영 흐름을 구현합니다.",
+          "실시간 코인 시세·매크로 지표·ETF 플로우·RSS 뉴스 큐레이션을 하나의 대시보드로 통합하고, 뉴스레터 구독·발송·유료 결제까지 이어지는 운영 흐름을 구현했습니다.",
         stack: [
           "Next.js 16",
           "React 19",
@@ -151,7 +151,7 @@ export const experiences: Experience[] = [
       {
         title: "멀티거래소 가상자산 트레이딩 터미널",
         summary:
-          "REST·TanStack Query로 대시보드·전략·자산 데이터를 캐싱하고, WebSocket 시세/오더북과 BFF 보안 레이어를 결합한 프로덕션 트레이딩 웹 앱입니다.",
+          "REST·TanStack Query로 대시보드·전략·자산 데이터를 캐싱하고, WebSocket 시세/오더북과 BFF 보안 레이어를 결합한 프로덕션 트레이딩 웹 앱을 담당했습니다.",
         stack: [
           "Next.js 16",
           "React 19",
@@ -223,14 +223,23 @@ export const experiences: Experience[] = [
         ],
       },
       {
-        title: "L사 커뮤니티 플랫폼",
-        summary: "일상 기록과 콘텐츠 공유를 위한 SNS형 웹 플랫폼을 구축했습니다.",
+        title: "L사 커뮤니티 플랫폼 (라이프집)",
+        summary: "일상 기록과 콘텐츠 공유를 위한 SNS형 웹 플랫폼을 구축·유지보수했습니다.",
         stack: ["React", "TypeScript", "TinyMCE", "Zustand", "Dropzone", "AWS S3"],
         achievements: [
           "TinyMCE 커스터마이징·이미지 자동 압축 훅",
-          "AWS S3 업로드 최적화",
+          "AWS S3 업로드·리사이즈 최적화",
         ],
         link: { label: "lifezip.kr", href: "https://lifezip.kr" },
+      },
+      {
+        title: "대기업 하드웨어 성능 시각화",
+        summary: "AG Grid 기반으로 하드웨어 설계·성능 데이터를 효율적으로 조회·관리하는 UI를 제공했습니다.",
+        stack: ["React", "AG Grid", "TypeScript"],
+        achievements: [
+          "대용량 테이블 필터·정렬 UX 구성",
+          "복잡한 측정 데이터를 읽기 쉬운 관리 화면으로 정리",
+        ],
       },
     ],
   },

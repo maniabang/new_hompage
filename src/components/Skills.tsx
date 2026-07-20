@@ -30,10 +30,17 @@ export function Skills() {
                 {group.title}
               </h3>
 
-              {/* 모바일: 칩만 */}
-              <div className="relative z-[1] mt-3 flex flex-wrap gap-2 md:hidden">
+              <div className="relative z-[1] mt-3 flex flex-wrap gap-2 md:hidden" data-skill-chips>
                 {group.items.map((item) => (
-                  <span key={item.name} className="chip">
+                  <span key={item.name} data-skill-chip className="chip">
+                    {item.name}
+                  </span>
+                ))}
+              </div>
+
+              <div className="relative z-[1] mt-4 hidden flex-wrap gap-2 md:flex" data-skill-chips>
+                {group.items.map((item) => (
+                  <span key={item.name} data-skill-chip className="chip">
                     {item.name}
                   </span>
                 ))}

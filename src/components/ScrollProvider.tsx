@@ -63,6 +63,56 @@ export function ScrollProvider() {
           },
         );
       });
+
+      // Skills chips stagger
+      gsap.utils.toArray<HTMLElement>("[data-skill-chips]").forEach((group) => {
+        const chips = group.querySelectorAll<HTMLElement>("[data-skill-chip]");
+        gsap.fromTo(
+          chips,
+          { autoAlpha: 0, y: 14, scale: 0.92 },
+          {
+            autoAlpha: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.45,
+            stagger: 0.035,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: group,
+              start: "top 88%",
+              toggleActions: "play none none reverse",
+            },
+          },
+        );
+      });
+
+      // Contact glass highlight sweep
+      gsap.utils.toArray<HTMLElement>("[data-contact-glass]").forEach((el) => {
+        const shine = el.querySelector<HTMLElement>("[data-contact-shine]");
+        gsap.fromTo(
+          el,
+          { autoAlpha: 0, y: 36 },
+          {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.9,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: el,
+              start: "top 85%",
+              toggleActions: "play none none reverse",
+              onEnter: () => {
+                if (!shine) return;
+                gsap.fromTo(
+                  shine,
+                  { xPercent: -120, opacity: 0 },
+                  { xPercent: 120, opacity: 1, duration: 1.15, ease: "power2.inOut" },
+                );
+              },
+            },
+          },
+        );
+      });
     });
 
     return () => ctx.revert();

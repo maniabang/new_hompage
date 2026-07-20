@@ -17,15 +17,34 @@ export function Hero() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const ctx = gsap.context(() => {
+      const words = gsap.utils.toArray<HTMLElement>("[data-hero-word]");
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-      tl.from("[data-hero='brand']", { y: 48, autoAlpha: 0, duration: 1.05 })
-        .from("[data-hero='line']", { y: 32, autoAlpha: 0, duration: 0.85 }, "-=0.55")
-        .from("[data-hero='desc']", { y: 24, autoAlpha: 0, duration: 0.75 }, "-=0.45")
-        .from("[data-hero='cta'] a", { y: 18, autoAlpha: 0, stagger: 0.08, duration: 0.6 }, "-=0.4")
-        .from("[data-hero='visual']", { scale: 1.08, autoAlpha: 0, duration: 1.2 }, "-=1");
+
+      tl.from("[data-hero='brand']", { y: 56, autoAlpha: 0, duration: 1.1 })
+        .from(
+          words,
+          { y: 28, autoAlpha: 0, rotateX: 40, stagger: 0.045, duration: 0.7 },
+          "-=0.55",
+        )
+        .from("[data-hero='desc']", { y: 22, autoAlpha: 0, duration: 0.7 }, "-=0.35")
+        .from("[data-hero='cta'] a", { y: 16, autoAlpha: 0, stagger: 0.08, duration: 0.55 }, "-=0.35")
+        .from("[data-hero='visual']", { scale: 1.1, autoAlpha: 0, duration: 1.25 }, "-=1.05");
 
       gsap.to("[data-hero='visual-img']", {
-        yPercent: 18,
+        yPercent: 22,
+        scale: 1.06,
+        ease: "none",
+        scrollTrigger: {
+          trigger: root,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+
+      gsap.to("[data-hero='content']", {
+        y: -48,
+        autoAlpha: 0.15,
         ease: "none",
         scrollTrigger: {
           trigger: root,
@@ -38,6 +57,8 @@ export function Hero() {
 
     return () => ctx.revert();
   }, []);
+
+  const headlineWords = site.headline.split(" ");
 
   return (
     <section id="top" ref={rootRef} className="relative min-h-[100svh] overflow-hidden" aria-label="Hero">
@@ -69,20 +90,26 @@ export function Hero() {
       </div>
 
       <div
+        data-hero="content"
         className="relative mx-auto flex min-h-[100svh] w-full flex-col justify-end px-4 pb-14 pt-[calc(var(--header-h)+1.5rem)] sm:px-5 sm:pb-24"
         style={{ maxWidth: "var(--page-max)" }}
       >
         <p
           data-hero="brand"
-          className="mb-3 font-[family-name:var(--font-display)] text-4xl font-extrabold tracking-tight text-[var(--text)] sm:mb-4 sm:text-7xl md:text-8xl"
+          className="hero-brand mb-3 font-[family-name:var(--font-display)] text-5xl font-extrabold tracking-[-0.04em] sm:mb-5 sm:text-7xl md:text-[7.5rem] md:leading-[0.95]"
         >
           {site.brand}
         </p>
-        <h1
-          data-hero="line"
-          className="max-w-2xl text-lg font-medium leading-snug tracking-tight text-[var(--text)] sm:text-2xl md:text-3xl"
-        >
-          {site.headline}
+        <h1 className="max-w-2xl text-lg font-medium leading-snug tracking-tight text-[var(--text)] sm:text-2xl md:text-3xl">
+          {headlineWords.map((word, index) => (
+            <span
+              key={`${word}-${index}`}
+              data-hero-word
+              className="mr-[0.28em] inline-block will-change-transform"
+            >
+              {word}
+            </span>
+          ))}
         </h1>
         <p
           data-hero="desc"

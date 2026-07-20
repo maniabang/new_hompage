@@ -21,10 +21,16 @@ const noto = Noto_Sans_KR({
 export const metadata: Metadata = {
   title: `${site.name} — ${site.role}`,
   description: site.description,
+  metadataBase: new URL("https://kwanghoon.dev"),
+  icons: {
+    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+    apple: [{ url: "/apple-icon" }],
+  },
   openGraph: {
     title: `${site.name} — ${site.role}`,
     description: site.description,
     type: "website",
+    url: "https://kwanghoon.dev",
     images: [{ url: site.ogImage, width: 1200, height: 630 }],
   },
 };

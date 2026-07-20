@@ -126,7 +126,7 @@ export const experiences: Experience[] = [
       {
         title: "가상자산 시장 인텔리전스 대시보드 & 뉴스레터",
         summary:
-          "실시간 코인 시세·매크로 지표·ETF 플로우·RSS 뉴스 큐레이션을 하나의 대시보드로 통합하고, 뉴스레터 구독·발송·유료 결제까지 이어지는 운영 흐름을 구현했습니다.",
+          "실시간 코인 시세·매크로 지표·ETF 플로우·RSS 뉴스 큐레이션을 하나의 대시보드로 통합하고, Spark 공개 랜딩·뉴스레터 구독·발송·유료 결제까지 이어지는 운영 흐름을 구현했습니다.",
         stack: [
           "Next.js 16",
           "React 19",
@@ -140,11 +140,16 @@ export const experiences: Experience[] = [
           "Resend",
         ],
         achievements: [
+          "Spark 공개 랜딩(spark.amxplore.com) — 구독 유입·온보딩 CTA 구성",
           "Pulse 대시보드 — 실시간 시세·스파크라인, AI 시장 요약, 섹터별 뉴스 피드 통합",
           "Macro · ETF — FRED 지표·ETF AUM·기업 BTC 보유량 시각화",
           "PayPal 구독·취소 웹훅으로 Supabase 구독 상태 동기화",
           "unstable_cache + ISR로 영역별 갱신 주기 분리",
         ],
+        link: {
+          label: "Spark 공개 페이지",
+          href: "https://spark.amxplore.com/",
+        },
       },
       {
         title: "멀티거래소 가상자산 트레이딩 터미널",

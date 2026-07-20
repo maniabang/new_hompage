@@ -35,10 +35,20 @@ function resolveTheme(theme: ThemeMode): ResolvedTheme {
 function applyTheme(theme: ThemeMode) {
   const resolved = resolveTheme(theme);
   const root = document.documentElement;
+  const bg = resolved === "light" ? "#eef3f7" : "#0c1218";
   root.classList.remove("light", "dark");
   root.classList.add(resolved);
   root.dataset.theme = theme;
   root.style.colorScheme = resolved;
+  root.style.backgroundColor = bg;
+  document.body.style.backgroundColor = bg;
+  let meta = document.querySelector('meta[name="theme-color"]');
+  if (!meta) {
+    meta = document.createElement("meta");
+    meta.setAttribute("name", "theme-color");
+    document.head.appendChild(meta);
+  }
+  meta.setAttribute("content", bg);
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {

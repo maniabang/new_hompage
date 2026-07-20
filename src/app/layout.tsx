@@ -35,6 +35,17 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#eef3f7" },
+    { media: "(prefers-color-scheme: dark)", color: "#0c1218" },
+  ],
+  colorScheme: "dark light" as const,
+  width: "device-width" as const,
+  initialScale: 1,
+  viewportFit: "cover" as const,
+};
+
 const themeInitScript = `
 (() => {
   try {
@@ -44,12 +55,23 @@ const themeInitScript = `
     const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const resolved = theme === 'system' ? (systemDark ? 'dark' : 'light') : theme;
     const root = document.documentElement;
+    const bg = resolved === 'light' ? '#eef3f7' : '#0c1218';
     root.classList.remove('light', 'dark');
     root.classList.add(resolved);
     root.dataset.theme = theme;
     root.style.colorScheme = resolved;
+    root.style.backgroundColor = bg;
+    if (document.body) document.body.style.backgroundColor = bg;
+    let meta = document.querySelector('meta[name="theme-color"]');
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.setAttribute('name', 'theme-color');
+      document.head.appendChild(meta);
+    }
+    meta.setAttribute('content', bg);
   } catch (_) {
     document.documentElement.classList.add('dark');
+    document.documentElement.style.backgroundColor = '#0c1218';
   }
 })();
 `;
@@ -60,11 +82,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className={`${roboto.variable} ${noto.variable} h-full antialiased`} suppressHydrationWarning>
+    <html
+      lang="ko"
+      className={`${roboto.variable} ${noto.variable} h-full bg-[var(--bg-deep)] antialiased`}
+      suppressHydrationWarning
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
-      <body className="min-h-full flex flex-col font-sans">
+      <body className="min-h-dvh flex flex-col bg-[var(--bg-deep)] font-sans">
         <ThemeProvider>
           <CursorFX />
           <ScrollProvider />

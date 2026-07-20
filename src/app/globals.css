@@ -133,7 +133,16 @@ html.light {
 }
 
 html {
+  height: 100%;
   scroll-behavior: smooth;
+  background-color: var(--bg-deep);
+  color-scheme: dark;
+  /* iOS/macOS overscroll 여백이 흰 노출되지 않도록 */
+  overscroll-behavior: none;
+}
+
+html.light {
+  color-scheme: light;
 }
 
 html.has-cursor-fx,
@@ -171,16 +180,27 @@ html.has-cursor-fx [data-cursor="drop"] {
 body {
   margin: 0;
   min-height: 100%;
+  min-height: 100dvh;
   color: var(--text);
   font-family: var(--font-sans);
-  background:
+  background-color: var(--bg-deep);
+  background-image:
     radial-gradient(900px 600px at 12% -10%, var(--body-glow-a) 0%, transparent 55%),
     radial-gradient(800px 540px at 92% 8%, var(--body-glow-b) 0%, transparent 50%),
     radial-gradient(700px 500px at 50% 100%, var(--body-glow-c) 0%, transparent 55%),
     linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-mid) 48%, var(--bg-end) 100%);
   background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
   overflow-x: hidden;
+  overscroll-behavior: none;
   transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+/* 스크롤 컨테이너/루트 여백도 동일 톤 유지 */
+#__next,
+main {
+  background-color: transparent;
 }
 
 ::selection {

@@ -52,6 +52,11 @@
   - `next/dynamic` · `React.memo` · Map 룩업으로 초기 로딩·WS 틱 리렌더 병목 개선
   - Stack: Next.js 16, React 19, TypeScript, WebSocket, BFF, Zustand, SCSS Modules, Chart.js, Lightweight Charts
 
+- **고객 자산 운용 포털 Navigator**
+  - 로그인·회원가입, 오버뷰(AUM·지갑), 전략 성과 대시보드, 거래 내역, PDF 리포트, 문의까지 고객 접점 구성
+  - TanStack Query + Zustand로 서버/UI 상태 분리, Chart.js · Lightweight Charts · react-pdf 활용
+  - Stack: Next.js 16, React 19, TypeScript, TanStack Query v5, Zustand, Chart.js, react-pdf
+
 ---
 
 ### 인텔리코드 (2023.10 ~ 2025.12) | Data Service팀 / 사원

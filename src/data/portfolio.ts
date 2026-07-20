@@ -170,6 +170,26 @@ export const experiences: Experience[] = [
           "Public/Private 데이터 흐름을 BFF로 분리해 키/세션 보호",
         ],
       },
+      {
+        title: "고객 자산 운용 포털 Navigator",
+        summary:
+          "로그인·회원가입부터 오버뷰(AUM·지갑), 전략 성과 대시보드, 거래 내역, PDF 리포트, 문의까지 고객 자산 조회·리포팅 접점을 하나의 웹앱으로 구성했습니다.",
+        stack: [
+          "Next.js 16",
+          "React 19",
+          "TypeScript",
+          "TanStack Query v5",
+          "Zustand",
+          "Chart.js",
+          "Lightweight Charts",
+          "react-pdf",
+        ],
+        achievements: [
+          "axios client_api + TanStack Query로 집계·히스토리 API 캐싱",
+          "datepicker·필터·테이블 UI 상태를 서버 데이터와 분리",
+          "Chart.js / Lightweight Charts · react-pdf로 성과·리포트 UX 구성",
+        ],
+      },
     ],
   },
   {

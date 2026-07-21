@@ -11,7 +11,7 @@ const themeLabels: Record<ThemeMode, string> = {
 };
 
 export function MobileTabBar() {
-  const [active, setActive] = useState<string>("skills");
+  const [active, setActive] = useState<string>("work");
   const { theme, cycleTheme } = useTheme();
 
   useEffect(() => {

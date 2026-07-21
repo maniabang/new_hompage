@@ -114,14 +114,23 @@ export type Experience = {
   company: string;
   role: string;
   period: string;
+  /** 타임라인에서 한눈에 보이는 한 줄 포커스 */
+  focus: string;
   projects: Project[];
 };
+
+export const careerSpan = {
+  from: "2021",
+  to: "2026",
+  label: "커리어 타임라인",
+} as const;
 
 export const experiences: Experience[] = [
   {
     company: "에이엠매니지먼트",
     role: "프론트엔드 개발",
     period: "2025.12 ~ 2026.07",
+    focus: "실시간 트레이딩 · 시장 인텔리전스",
     projects: [
       {
         title: "가상자산 시장 인텔리전스 대시보드 & 뉴스레터",
@@ -199,6 +208,7 @@ export const experiences: Experience[] = [
     company: "㈜인텔리코드",
     role: "Data Service팀 / 사원",
     period: "2023.10 ~ 2025.12",
+    focus: "레거시 모던화 · 실시간 선거 시스템",
     projects: [
       {
         title: "대기업 전자제품 제조사 웹 포털 — Legacy 모던 마이그레이션",
@@ -270,6 +280,7 @@ export const experiences: Experience[] = [
     company: "㈜제이앤퍼스트",
     role: "개발부 / 대리",
     period: "2021.11 ~ 2023.09",
+    focus: "글로벌 CMS · Line 협력사 eCommerce",
     projects: [
       {
         title: "Line 협력사 eCommerce · CMS",

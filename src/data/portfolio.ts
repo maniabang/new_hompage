@@ -6,7 +6,7 @@ export const site = {
   description:
     "트레이딩 터미널과 시장 인텔리전스에서 WebSocket·차트·캐시를 한 흐름으로 맞추고, Next.js로 읽히고 유지되는 UI를 만듭니다.",
   githubUrl: "https://github.com/maniabang",
-  email: "madmanno@naver.com",
+  // email: "madmanno@naver.com",
   ogImage: "/opengraph-image",
 } as const;
 

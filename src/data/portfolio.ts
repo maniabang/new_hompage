@@ -149,7 +149,7 @@ export const experiences: Experience[] = [
           "Resend",
         ],
         achievements: [
-          "Spark 공개 랜딩(spark.amxplore.com) — 구독 유입·온보딩 CTA 구성",
+          "Spark 공개 랜딩(일시 비공개) — 구독 유입·온보딩 CTA 구성",
           "Pulse 대시보드 — 실시간 시세·스파크라인, AI 시장 요약, 섹터별 뉴스 피드 통합",
           "Macro · ETF — FRED 지표·ETF AUM·기업 BTC 보유량 시각화",
           "PayPal 구독·취소 웹훅으로 Supabase 구독 상태 동기화",
@@ -157,7 +157,7 @@ export const experiences: Experience[] = [
         ],
         link: {
           label: "Spark 공개 페이지",
-          href: "https://spark.amxplore.com/",
+          href: "https://github.com/maniabang/",
         },
       },
       {

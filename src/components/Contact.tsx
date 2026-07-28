@@ -28,9 +28,9 @@ export function Contact() {
             협업·포지션 제안은 언제든 환영합니다.
           </p>
           <div className="relative z-[1] mt-8 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-            <a href={`mailto:${site.email}`} data-cursor="drop" className="btn-primary btn-email max-w-full">
+            {/* <a href={`mailto:${site.email}`} data-cursor="drop" className="btn-primary btn-email max-w-full">
               {site.email}
-            </a>
+            </a> */}
             <a
               href={site.githubUrl}
               target="_blank"

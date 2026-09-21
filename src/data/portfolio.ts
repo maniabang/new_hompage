@@ -17,7 +17,7 @@ export const interviews = [
   },
   {
     q: "일에서 가장 중요하게 생각하는 것은?",
-    a: "아이하우에서 고입 준비 서비스를 제품 관점에서 설계하고 개발하고 있습니다. 학생의 준비 흐름을 정의하고, 어드민 운영 정책과 데이터 구조를 조율하며, 자소서 분석·모의면접·결과 확인이 하나의 경험으로 이어지도록 제품을 끝까지 만들어갑니다.",
+    a: "사용자의 작업이 처음부터 끝까지 끊기지 않는 제품 흐름을 중요하게 생각합니다. AIHOW에서는 학교 선택부터 모의면접까지, The Tent에서는 시나리오와 에셋부터 생성·편집·히스토리까지 연결하며 복잡한 AI 기능을 실제 작업 도구로 만들고 있습니다.",
   },
   {
     q: "강점은 무엇인가요?",
@@ -31,15 +31,15 @@ export const skillGroups = [
     items: [
       {
         name: "Next.js 16",
-        desc: "App Router · SSR/ISR · next/dynamic 분할 로딩으로 트레이딩·시장 대시보드 초기 로딩을 최적화했습니다.",
+        desc: "App Router 기반 AI 제작 도구와 교육 서비스를 설계하고, 서버 API·인증·비동기 작업 흐름을 제품 UI와 연결했습니다.",
       },
       {
         name: "React 19",
-        desc: "Hook 기반 설계와 memo 패턴으로 WS 틱 업데이트 시 불필요한 리렌더를 줄였습니다.",
+        desc: "Movie Studio·타임라인·실시간 생성 결과처럼 상태가 복잡한 작업 화면을 컴포넌트와 Hook으로 구조화했습니다.",
       },
       {
         name: "TypeScript",
-        desc: "도메인 타입·API 응답·포맷팅 유틸로 시세·포지션·테이블 데이터 정합성을 높였습니다.",
+        desc: "시나리오·에셋·생성 작업·결제 등 도메인 타입을 연결해 화면과 서버의 데이터 정합성을 관리합니다.",
       },
       {
         name: "WebSocket",
@@ -48,6 +48,10 @@ export const skillGroups = [
       {
         name: "BFF 패턴",
         desc: "CSRF·API 키 보호·Rate Limiting이 있는 서버 레이어로 민감 주문·계정 API를 프록시합니다.",
+      },
+      {
+        name: "Three.js · Konva",
+        desc: "프리비즈와 편집 작업에서 공간·캔버스 기반 인터랙션을 제품 흐름에 연결했습니다.",
       },
     ],
   },
@@ -58,6 +62,8 @@ export const skillGroups = [
       { name: "Turbopack", desc: "Next.js 개발 환경에서 빌드/번들 피드백 속도를 점검했습니다." },
       { name: "GitHub Actions", desc: "커밋/배포 흐름을 자동화하고 빌드 오류를 빠르게 재현·수정했습니다." },
       { name: "Vercel", desc: "Git 연동 자동 배포로 개발 워크플로우를 최적화했습니다." },
+      { name: "Railway Worker", desc: "장시간 AI 생성 작업을 웹 요청과 분리하고 안전한 종료·재시도 흐름을 구현했습니다." },
+      { name: "Playwright", desc: "생성·인증·결제·편집의 핵심 사용자 흐름을 브라우저 테스트로 검증했습니다." },
       { name: "AWS", desc: "프로덕션 빌드를 EC2에 배포하며 운영 환경을 경험했습니다." },
     ],
   },
@@ -95,7 +101,7 @@ export const skillGroups = [
       },
       {
         name: "Supabase",
-        desc: "구독자·피드 DB와 SSR/Admin API를 분리해 뉴스레터 파이프라인을 구축했습니다.",
+        desc: "인증·Postgres·RLS·생성 작업·크레딧 원장을 연결해 사용자별 데이터와 과금 경계를 관리했습니다.",
       },
     ],
   },
@@ -130,8 +136,36 @@ export const experiences: Experience[] = [
     company: "이제이비전",
     role: "PM · 개발자 / 프로젝트 오너",
     period: "2026.07 ~ 재직중",
-    focus: "AI 교육 제품 · 제품 전략부터 구현까지",
+    focus: "AI 교육 · 생성형 콘텐츠 제품의 기획과 구현",
     projects: [
+      {
+        title: "The Tent AI Studio",
+        summary:
+          "비개발 크리에이터가 이미지·영상·시나리오·편집 작업을 한 공간에서 이어갈 수 있는 AI 제작 플랫폼에 기여했습니다. Movie Studio와 생성 결과 히스토리, 독립 타임라인을 중심으로 복잡한 제작 과정을 실제 작업 흐름으로 다듬었습니다.",
+        stack: [
+          "Next.js 16",
+          "React 19",
+          "TypeScript",
+          "Supabase",
+          "Railway Worker",
+          "Three.js",
+          "Konva",
+          "Playwright",
+          "MCP",
+          "Stripe · PortOne",
+        ],
+        achievements: [
+          "프로젝트·시나리오·에셋 계층과 드래그 정렬, 자동 저장을 포함한 Movie Studio 작업 구조 구현",
+          "스토리보드·프리비즈 생성, 버전 선택, 에셋 재사용과 영상 연결까지 제작 흐름 고도화",
+          "Premiere XML 기반 독립 타임라인과 클립 교체·오디오 레인·플레이헤드 인터랙션 개발",
+          "생성 작업 동시 처리·안전 종료·재시도 복원과 중복 요청·중복 과금 방지 로직 보강",
+          "히스토리 검색·미리보기·실패 복구, 다국어·모바일·접근 제어·결제 오류 UX 개선",
+        ],
+        link: {
+          label: "GitHub 저장소",
+          href: "https://github.com/grpnop/thetent",
+        },
+      },
       {
         title: "AIHOW 고입 준비 서비스",
         summary:

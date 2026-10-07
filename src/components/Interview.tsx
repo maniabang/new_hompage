@@ -8,7 +8,7 @@ export function Interview() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="px-4 py-12 sm:px-5 sm:py-28" aria-labelledby="interview-title">
+    <section className="px-3 py-10 sm:px-5 sm:py-28" aria-labelledby="interview-title">
       <div className="mx-auto" style={{ maxWidth: "var(--page-max)" }}>
         <ScrollReveal>
           <h2
@@ -23,7 +23,7 @@ export function Interview() {
         </ScrollReveal>
 
         {/* 모바일: 아코디언 */}
-        <div className="mt-8 space-y-2 md:hidden" data-stagger>
+        <div className="mt-7 space-y-2 md:hidden" data-stagger>
           {interviews.map((item, i) => {
             const open = openIndex === i;
             return (
@@ -37,7 +37,7 @@ export function Interview() {
                   data-cursor="drop"
                   aria-expanded={open}
                   onClick={() => setOpenIndex(open ? null : i)}
-                  className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left"
+                  className="flex w-full items-center justify-between gap-3 px-3.5 py-3.5 text-left"
                 >
                   <span className="text-sm font-semibold text-[var(--accent)]">Q. {item.q}</span>
                   <span className="shrink-0 text-[var(--text-muted)]" aria-hidden>
@@ -45,7 +45,7 @@ export function Interview() {
                   </span>
                 </button>
                 {open ? (
-                  <p className="border-t border-[var(--line)] px-4 pb-4 pt-3 text-sm leading-relaxed text-[var(--text-soft)]">
+                  <p className="border-t border-[var(--line)] px-3.5 pb-3.5 pt-3 text-sm leading-relaxed text-[var(--text-soft)]">
                     {item.a}
                   </p>
                 ) : null}

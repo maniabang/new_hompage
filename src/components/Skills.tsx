@@ -4,7 +4,7 @@ import { MobileCollapse } from "@/components/MobileCollapse";
 
 export function Skills() {
   return (
-    <section id="skills" className="px-4 py-12 sm:px-5 sm:py-28" aria-labelledby="skills-title">
+    <section id="skills" className="px-3 py-10 sm:px-5 sm:py-28" aria-labelledby="skills-title">
       <div className="mx-auto" style={{ maxWidth: "var(--page-max)" }}>
         <ScrollReveal>
           <h2
@@ -18,13 +18,13 @@ export function Skills() {
           </p>
         </ScrollReveal>
 
-        <div className="mt-8 grid gap-4 md:mt-10 md:grid-cols-2 md:gap-5" data-stagger>
+        <div className="mt-7 grid gap-3 md:mt-10 md:grid-cols-2 md:gap-5" data-stagger>
           {skillGroups.map((group) => (
             <div
               key={group.title}
               data-stagger-item
               data-cursor="drop"
-              className="glass glass-interactive rounded-[var(--radius)] p-4 sm:p-6"
+              className="glass glass-interactive rounded-[var(--radius)] p-3.5 sm:p-6"
             >
               <h3 className="relative z-[1] font-[family-name:var(--font-display)] text-lg font-semibold sm:text-xl">
                 {group.title}

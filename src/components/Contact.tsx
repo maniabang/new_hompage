@@ -2,12 +2,12 @@ import { site } from "@/data/portfolio";
 
 export function Contact() {
   return (
-    <section id="contact" className="px-4 py-16 sm:px-5 sm:py-28" aria-labelledby="contact-title">
+    <section id="contact" className="px-3 py-12 sm:px-5 sm:py-28" aria-labelledby="contact-title">
       <div className="mx-auto" style={{ maxWidth: "var(--page-max)" }}>
         <div
           data-contact-glass
           data-cursor="drop"
-          className="contact-glass glass relative rounded-[var(--radius)] px-5 py-9 text-center sm:px-10 sm:py-14"
+          className="contact-glass glass relative rounded-[var(--radius)] px-4 py-8 text-center sm:px-10 sm:py-14"
         >
           <div
             data-contact-shine

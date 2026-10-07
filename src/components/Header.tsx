@@ -5,7 +5,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--line)] bg-[var(--header-bg)] backdrop-blur-xl">
       <div
-        className="mx-auto flex h-[var(--header-h)] items-center justify-center px-4 md:justify-between md:px-5"
+        className="mx-auto flex h-[var(--header-h)] items-center justify-center px-3 md:justify-between md:px-5"
         style={{ maxWidth: "var(--page-max)" }}
       >
         <a

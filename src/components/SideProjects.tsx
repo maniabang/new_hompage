@@ -5,7 +5,7 @@ import { MobileCollapse } from "@/components/MobileCollapse";
 
 export function SideProjects() {
   return (
-    <section id="projects" className="px-4 py-12 sm:px-5 sm:py-28" aria-labelledby="projects-title">
+    <section id="projects" className="px-3 py-10 sm:px-5 sm:py-28" aria-labelledby="projects-title">
       <div className="mx-auto" style={{ maxWidth: "var(--page-max)" }}>
         <ScrollReveal>
           <h2
@@ -19,7 +19,7 @@ export function SideProjects() {
           </p>
         </ScrollReveal>
 
-        <div className="mt-8 space-y-5 sm:mt-10 sm:space-y-8" data-stagger>
+        <div className="mt-7 space-y-4 sm:mt-10 sm:space-y-8" data-stagger>
           {sideProjects.map((project) => (
             <article
               key={project.title}
@@ -28,7 +28,7 @@ export function SideProjects() {
               className="overflow-hidden rounded-[var(--radius)] border border-[var(--line)] bg-[var(--chip-bg)] transition duration-300 hover:-translate-y-1 hover:border-[var(--accent)]"
             >
               <div className="grid gap-0 lg:grid-cols-[1.1fr_0.9fr]">
-                <div className="p-4 sm:p-7">
+                <div className="p-3.5 sm:p-7">
                   <div className="flex flex-wrap items-center gap-2">
                     <h3 className="font-[family-name:var(--font-display)] text-xl font-bold sm:text-2xl">
                       {project.title}

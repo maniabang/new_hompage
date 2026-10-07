@@ -91,7 +91,7 @@ export function Hero() {
 
       <div
         data-hero="content"
-        className="relative mx-auto flex min-h-[100svh] w-full flex-col justify-end px-4 pb-14 pt-[calc(var(--header-h)+1.5rem)] sm:px-5 sm:pb-24"
+        className="relative mx-auto flex min-h-[100svh] w-full flex-col justify-end px-3 pb-14 pt-[calc(var(--header-h)+1.5rem)] sm:px-5 sm:pb-24"
         style={{ maxWidth: "var(--page-max)" }}
       >
         <p

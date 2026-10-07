@@ -42,7 +42,7 @@ export function MobileTabBar() {
 
   return (
     <nav
-      className="pointer-events-none fixed inset-x-0 bottom-0 z-[60] px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:hidden"
+      className="pointer-events-none fixed inset-x-0 bottom-0 z-[60] px-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] md:hidden"
       aria-label="모바일 하단 내비게이션"
     >
       <div className="pointer-events-auto mx-auto flex max-w-md items-stretch gap-1 rounded-[28px] border border-[var(--glass-border)] bg-[var(--glass-strong)] p-1.5 shadow-[var(--shadow)] backdrop-blur-[28px] saturate-[1.45] [-webkit-backdrop-filter:blur(28px)_saturate(1.45)]">

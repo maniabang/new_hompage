@@ -322,6 +322,11 @@ a {
 }
 
 @media (max-width: 640px) {
+  :root {
+    --radius: 17px;
+    --page-max: 100%;
+  }
+
   .btn-primary,
   .btn-ghost {
     width: 100%;
@@ -477,6 +482,42 @@ a {
 
 .timeline-meta {
   max-width: 16rem;
+}
+
+@media (max-width: 767px) {
+  .timeline-rail-item {
+    min-width: 0;
+    padding: 0.72rem 0.78rem;
+    border-radius: 14px;
+  }
+
+  .timeline-rail-company,
+  .timeline-rail-period {
+    overflow-wrap: anywhere;
+    word-break: keep-all;
+  }
+
+  .timeline-line,
+  .timeline-dot {
+    display: none;
+  }
+
+  .timeline-node {
+    padding-left: 0;
+  }
+
+  .timeline-grid {
+    gap: 0.7rem;
+  }
+
+  .timeline-body {
+    word-break: keep-all;
+  }
+
+  .timeline-meta {
+    max-width: none;
+    padding-right: 0.25rem;
+  }
 }
 
 @media (min-width: 768px) {

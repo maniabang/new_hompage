@@ -117,7 +117,7 @@ export function Experience() {
     <section
       id="work"
       ref={rootRef}
-      className="px-4 py-12 sm:px-5 sm:py-28"
+      className="px-3 py-10 sm:px-5 sm:py-28"
       aria-labelledby="work-title"
     >
       <div className="mx-auto" style={{ maxWidth: "var(--page-max)" }}>
@@ -140,7 +140,7 @@ export function Experience() {
         {/* At-a-glance career rail */}
         <nav
           data-timeline-rail
-          className="timeline-rail mt-8 flex gap-2 overflow-x-auto pb-1 sm:mt-10 sm:flex-wrap sm:overflow-visible"
+          className="timeline-rail mt-7 grid grid-cols-2 gap-2 sm:mt-10 sm:flex sm:flex-wrap"
           aria-label="경력 한눈에 보기"
         >
           {experiences.map((exp, index) => (
@@ -157,12 +157,12 @@ export function Experience() {
           ))}
         </nav>
 
-        <div data-timeline className="timeline relative mt-10 sm:mt-14">
+        <div data-timeline className="timeline relative mt-8 sm:mt-14">
           <div className="timeline-line" aria-hidden>
             <div data-timeline-progress className="timeline-line-progress" />
           </div>
 
-          <ol className="relative space-y-10 sm:space-y-16">
+          <ol className="relative space-y-8 sm:space-y-16">
             {experiences.map((exp, companyIndex) => (
               <li
                 key={exp.company}
@@ -186,7 +186,7 @@ export function Experience() {
                   </aside>
 
                   <div data-timeline-body className="timeline-body min-w-0">
-                    <header className="mb-4 sm:mb-5">
+                    <header className="mb-3 sm:mb-5">
                       <h3 className="font-[family-name:var(--font-display)] text-xl font-bold tracking-tight sm:text-2xl">
                         {exp.company}
                       </h3>
@@ -195,15 +195,15 @@ export function Experience() {
                       </p>
                     </header>
 
-                    <div className="space-y-3 sm:space-y-4">
+                    <div className="space-y-2.5 sm:space-y-4">
                       {exp.projects.map((project, projectIndex) => (
                         <article
                           key={project.title}
                           data-timeline-card
                           data-cursor="drop"
-                          className="glass glass-interactive rounded-[var(--radius)] p-4 sm:p-6"
+                          className="glass glass-interactive rounded-[var(--radius)] p-3.5 sm:p-6"
                         >
-                          <div className="relative z-[1] flex items-start gap-3">
+                          <div className="relative z-[1] flex items-start gap-2.5 sm:gap-3">
                             <span className="mt-0.5 font-[family-name:var(--font-display)] text-sm font-bold text-[var(--accent)]">
                               {String(projectIndex + 1).padStart(2, "0")}
                             </span>

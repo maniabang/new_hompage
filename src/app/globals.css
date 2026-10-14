@@ -3,7 +3,7 @@
 :root {
   --radius: 20px;
   --header-h: 68px;
-  --page-max: min(1120px, 92vw);
+  --page-max: min(1280px, 96vw);
   /* SSR fallback = dark until theme script resolves */
   --bg-deep: #0c1218;
   --bg-mid: #121c26;

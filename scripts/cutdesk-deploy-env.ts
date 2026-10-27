@@ -15,6 +15,7 @@ for (const key of [
   "SUPABASE_SERVICE_ROLE_KEY",
   "SESSION_SECRET",
   "WORKSPACE_ACCESS_CODE",
+  "WORKSPACE_OWNER_ACCESS_CODE",
 ]) {
   if (!values[key]) throw new Error(`Missing ${key}`);
   const r = spawnSync(

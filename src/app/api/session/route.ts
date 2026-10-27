@@ -40,22 +40,23 @@ export async function POST(request: Request) {
         { error: "잠시 후 다시 접속해주세요." },
         { status: 429 },
       );
-    if (
-      !process.env.WORKSPACE_ACCESS_CODE ||
-      !same(password, process.env.WORKSPACE_ACCESS_CODE)
-    )
+    const actorName = name.trim().normalize("NFC");
+    const accessCode = actorName === "이광훈"
+      ? process.env.WORKSPACE_OWNER_ACCESS_CODE
+      : process.env.WORKSPACE_ACCESS_CODE;
+    if (!accessCode || !same(password, accessCode))
       return Response.json(
         { error: "접속 코드가 일치하지 않습니다." },
         { status: 401 },
       );
-    (await cookies()).set(cookieName, token(name.trim()), {
+    (await cookies()).set(cookieName, token(actorName), {
       httpOnly: true,
       secure: new URL(request.url).protocol === "https:",
       sameSite: "strict",
       path: "/",
       maxAge: 7 * 86400,
     });
-    return Response.json({ name: name.trim() });
+    return Response.json({ name: actorName });
   } catch {
     return Response.json(
       { error: "작업실 연결을 확인해주세요." },

@@ -5,13 +5,12 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
   ArrowLeft,
-  ArrowUpRight,
+  ArrowRight,
   Check,
   CheckCheck,
   ChevronDown,
   ChevronRight,
   Circle,
-  Clapperboard,
   Copy,
   Download,
   Film,
@@ -105,7 +104,7 @@ const date = (value: string) =>
 function Mark() {
   return (
     <span className="brand-mark">
-      <Clapperboard size={22} />
+      <img src="/brand/thetent-icon.png" alt="" width={32} height={32} />
     </span>
   );
 }
@@ -137,8 +136,12 @@ export function Workbench({ name }: { name: string | null }) {
   const [loading, setLoading] = useState(false);
   const [newCut, setNewCut] = useState(false);
   const [nonce, setNonce] = useState(0);
-  const [connected, setConnected] = useState(true);
-  const refresh = () => setNonce((n) => n + 1);
+  const [connected, setConnected] = useState<boolean | null>(null);
+  const [indexLoading, setIndexLoading] = useState(true);
+  const refresh = () => {
+    setIndexLoading(true);
+    setNonce((n) => n + 1);
+  };
   useEffect(() => {
     if (!name) return;
     const controller = new AbortController();
@@ -151,11 +154,13 @@ export function Workbench({ name }: { name: string | null }) {
         setEpisodes(d.episodes);
         setCuts(d.cuts);
         setConnected(true);
+        setIndexLoading(false);
       })
       .catch((e) => {
         if (!controller.signal.aborted) {
           setMessage(e.message);
           setConnected(false);
+          setIndexLoading(false);
         }
       });
     return () => controller.abort();
@@ -215,35 +220,14 @@ export function Workbench({ name }: { name: string | null }) {
   if (!name)
     return (
       <div className="login-shell">
-        <div className="login-aside">
-          <Mark />
-          <span className="eyebrow">PRODUCTION WORKSPACE</span>
-          <h1>
-            하나의 컷에서,
-            <br />
-            하나의 완성본까지.
-          </h1>
-          <p>
-            컷 번호, 참조 에셋, 프롬프트.
-            <br />
-            모든 작업을 같은 기준으로 연결합니다.
-          </p>
-          <div className="login-flow">
-            <span>01 / CUT</span>
-            <ChevronRight />
-            <span>02 / ASSET</span>
-            <ChevronRight />
-            <span>03 / PROMPT</span>
-          </div>
-          <small>
-            CUT DESK <span>PRIVATE COLLABORATION</span>
-          </small>
-        </div>
+        <header className="login-header">
+          <span className="login-brand"><img src="/brand/thetent-wordmark.png" alt="theTent" width={270} height={57} /></span>
+          <span>컷 작업실</span>
+        </header>
         <section className="login-panel">
           <div className="login-card">
-            <span className="eyebrow">CUT DESK / ACCESS</span>
-            <h2>제작 작업실에 접속</h2>
-            <p>공유받은 접속 코드와 작업자 이름을 입력해주세요.</p>
+            <h1>작업실 로그인</h1>
+            <p>작업자 이름과 접속 코드를 입력하세요.</p>
             <form
               onSubmit={async (event) => {
                 event.preventDefault();
@@ -270,7 +254,7 @@ export function Workbench({ name }: { name: string | null }) {
                 <input
                   name="name"
                   autoComplete="name"
-                  placeholder="이름을 입력하세요"
+                  placeholder="이름"
                   required
                   maxLength={40}
                 />
@@ -283,7 +267,7 @@ export function Workbench({ name }: { name: string | null }) {
                     name="password"
                     type="password"
                     autoComplete="current-password"
-                    placeholder="공동 작업 접속 코드"
+                    placeholder="접속 코드"
                     required
                   />
                 </div>
@@ -297,14 +281,14 @@ export function Workbench({ name }: { name: string | null }) {
                 {loading ? (
                   <Loader2 className="spin" size={16} />
                 ) : (
-                  <ArrowUpRight size={16} />
+                  <ArrowRight size={16} />
                 )}
-                작업실 열기
+                로그인
               </button>
             </form>
             <div className="security-note">
               <ShieldCheck size={15} />
-              작업 내용은 인증된 작업자에게만 공개됩니다.
+              초대된 작업자만 이용할 수 있습니다.
             </div>
           </div>
         </section>
@@ -313,7 +297,7 @@ export function Workbench({ name }: { name: string | null }) {
   return (
     <div className="desk">
       <aside className="rail">
-        <Link className="rail-brand" href="/" aria-label="CUT DESK">
+        <Link className="rail-brand" href="/" aria-label="theTent 컷 작업실">
           <Mark />
         </Link>
         <button
@@ -323,6 +307,7 @@ export function Workbench({ name }: { name: string | null }) {
           onClick={() => {
             if (allow()) {
               setTrash(false);
+              if (trash) setIndexLoading(true);
               setDirty(false);
               setSelected("");
               setCut(null);
@@ -338,6 +323,7 @@ export function Workbench({ name }: { name: string | null }) {
           onClick={() => {
             if (allow()) {
               setTrash(true);
+              if (!trash) setIndexLoading(true);
               setDirty(false);
               setSelected("");
               setCut(null);
@@ -358,16 +344,16 @@ export function Workbench({ name }: { name: string | null }) {
       <div className="desk-body">
         <header className="topbar">
           <div className="breadcrumbs">
-            <strong>CUT DESK</strong>
+            <strong>컷 작업실</strong>
             <span>/</span>
             <span>{project?.title || "제작 작업실"}</span>
             <ChevronRight size={12} />
-            <b>{trash ? "휴지통" : "컷 · 에셋 · 프롬프트"}</b>
+            <b>{trash ? "휴지통" : "제작 관리"}</b>
           </div>
           <div className="top-actions">
             <span className="cloud-status" data-connected={connected}>
               <i />
-              {connected ? "클라우드 연결" : "연결 확인 필요"}
+              {connected === null ? "연결 중" : connected ? "연결됨" : "연결 확인 필요"}
             </span>
             <button
               className="icon-button"
@@ -400,26 +386,13 @@ export function Workbench({ name }: { name: string | null }) {
         </header>
         <div className="overview">
           <div>
-            <span className="eyebrow">PRODUCTION INDEX</span>
-            <h1>
-              {trash ? "삭제된 컷 보관함" : "컷 작업실"}
-              <span>{String(total).padStart(3, "0")}</span>
-            </h1>
-            <p>원본의 맥락을 지키고, 에셋과 프롬프트를 정확하게 연결합니다.</p>
+            <h1>{trash ? "휴지통" : project?.title || "제작 관리"}</h1>
+            <span className="cut-total">{project ? `${total}개 컷` : "불러오는 중"}</span>
           </div>
-          <div className="progress-overview">
-            <span>
-              <CheckCheck size={16} />
-              검토 확정 <b>{reviewed}</b>
-              <small>/ {total} CUTS</small>
-            </span>
-            <div>
-              <i
-                style={{ width: total ? `${(reviewed / total) * 100}%` : "0%" }}
-              />
-            </div>
-            <small>모든 변경은 서버에 저장됩니다</small>
-          </div>
+          <span className="review-summary">
+            <CheckCheck size={14} />
+            확정 {project ? reviewed : "—"}<span>/ {project ? total : "—"}</span>
+          </span>
         </div>
         {message && (
           <div className="notice" role="alert">
@@ -440,6 +413,8 @@ export function Workbench({ name }: { name: string | null }) {
                   onChange={(e) => {
                     if (allow()) {
                       setEpisode(e.target.value);
+                      setIndexLoading(true);
+                      setCuts([]);
                       setDirty(false);
                       setSelected("");
                       setCut(null);
@@ -475,7 +450,6 @@ export function Workbench({ name }: { name: string | null }) {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
               />
-              <kbd>⌕</kbd>
             </div>
             <div className="list-filters">
               <select
@@ -496,7 +470,7 @@ export function Workbench({ name }: { name: string | null }) {
                   <option key={s}>{s}</option>
                 ))}
               </select>
-              <span>{filtered.length}개 컷</span>
+              <span>{indexLoading ? "불러오는 중" : `${filtered.length}개 컷`}</span>
             </div>
             <div className="cut-list">
               {filtered.map((c, i) => (
@@ -514,14 +488,20 @@ export function Workbench({ name }: { name: string | null }) {
                     <strong>{c.title}</strong>
                     <span className="cut-row-meta">
                       <Status value={c.status} />
-                      <span>{c.asset_count} ASSETS</span>
+                      <span>에셋 {c.asset_count}</span>
                       <span>{Number(c.duration).toFixed(1)}s</span>
                     </span>
                   </span>
                   <ChevronRight size={14} />
                 </button>
               ))}
-              {!filtered.length && (
+              {indexLoading && !cuts.length && (
+                <div className="empty-small" role="status">
+                  <Loader2 className="spin" size={20} />
+                  <p>컷을 불러오는 중입니다.</p>
+                </div>
+              )}
+              {!indexLoading && !filtered.length && (
                 <div className="empty-small">
                   <FolderOpen />
                   <p>표시할 컷이 없습니다.</p>
@@ -531,7 +511,7 @@ export function Workbench({ name }: { name: string | null }) {
             </div>
             <div className="library-foot">
               <span className="tiny-dot" />
-              서버 저장 · 원본 r{project?.source_revision ?? "—"}
+              {episodes.length}개 회차 · {total}개 컷
             </div>
           </section>
           <main className="editor-region">
@@ -563,33 +543,9 @@ export function Workbench({ name }: { name: string | null }) {
               />
             ) : (
               <div className="workspace-empty">
-                <div className="empty-illustration">
-                  <Clapperboard size={36} />
-                  <span>01</span>
-                  <span>02</span>
-                  <span>03</span>
-                </div>
-                <span className="eyebrow">YOUR NEXT CUT STARTS HERE</span>
-                <h2>작업할 컷을 선택해주세요</h2>
-                <p>
-                  왼쪽 목록에서 컷을 선택하면 프롬프트와
-                  <br />
-                  연결된 에셋을 함께 확인하고 편집할 수 있습니다.
-                </p>
-                <div className="empty-legend">
-                  <span>
-                    <Layers3 size={14} />
-                    컷별 관리
-                  </span>
-                  <span>
-                    <ImageIcon size={14} />
-                    에셋 연결
-                  </span>
-                  <span>
-                    <History size={14} />
-                    변경 이력
-                  </span>
-                </div>
+                <Layers3 size={28} strokeWidth={1.5} />
+                <h2>컷을 선택하세요</h2>
+                <p>프롬프트와 참조 에셋을 확인하고 편집할 수 있습니다.</p>
               </div>
             )}
           </main>
@@ -657,6 +613,7 @@ function CutEditor({
 }) {
   const [draft, setDraft] = useState(cut);
   const [saving, setSaving] = useState(false);
+  const [mobilePane, setMobilePane] = useState<"prompt" | "assets">("prompt");
   const [tab, setTab] = useState<"prompt" | "work" | "brief" | "draft">(
     "prompt",
   );
@@ -666,6 +623,7 @@ function CutEditor({
   const [showInfo, setShowInfo] = useState(false);
   const [recovery, setRecovery] = useState<Cut | null>(null);
   const promptRef = useRef<HTMLTextAreaElement>(null);
+  const wasDirty = useRef(false);
   const dirty =
     JSON.stringify(editable(draft)) !== JSON.stringify(editable(cut));
   const change = useCallback(
@@ -674,8 +632,13 @@ function CutEditor({
   );
   useEffect(() => onDirty(dirty), [dirty, onDirty]);
   useEffect(() => {
-    if (!dirty) return;
     try {
+      if (!dirty) {
+        if (wasDirty.current) localStorage.removeItem(`cutdesk-draft-${cut.id}`);
+        wasDirty.current = false;
+        return;
+      }
+      wasDirty.current = true;
       localStorage.setItem(
         `cutdesk-draft-${cut.id}`,
         JSON.stringify({ baseVersion: cut.version, draft }),
@@ -755,6 +718,8 @@ function CutEditor({
       [field]:
         draft[field].slice(0, pos) + `@{${a.name}}` + draft[field].slice(pos),
     });
+    if (tab === "brief") setTab("prompt");
+    setMobilePane("prompt");
   };
   return (
     <>
@@ -824,7 +789,15 @@ function CutEditor({
           </button>
         </div>
       )}
-      <div className="editor-columns">
+      <div className="pane-switch" aria-label="작업 화면">
+        <button aria-pressed={mobilePane === "prompt"} onClick={() => setMobilePane("prompt")}>
+          <Film size={15} />프롬프트
+        </button>
+        <button aria-pressed={mobilePane === "assets"} onClick={() => setMobilePane("assets")}>
+          <ImageIcon size={15} />참조 에셋 <span>{selected.length}</span>
+        </button>
+      </div>
+      <div className="editor-columns" data-pane={mobilePane}>
         <section className="writing-pane">
           <div className="editor-tabs" role="tablist" aria-label="편집 영역">
             <button
@@ -847,7 +820,6 @@ function CutEditor({
               onClick={() => setTab("draft")}
             >
               MCP 전달문
-              <span className="tab-dot" />
             </button>
             <button
               role="tab"
@@ -861,7 +833,7 @@ function CutEditor({
             {tab === "brief" ? (
               <div className="brief-form">
                 <label>
-                  <span className="section-label">STORY / 줄콘티</span>
+                  <span className="section-label">줄콘티</span>
                   <textarea
                     value={draft.story}
                     onChange={(e) => change({ story: e.target.value })}
@@ -869,7 +841,7 @@ function CutEditor({
                   />
                 </label>
                 <label>
-                  <span className="section-label">DIALOGUE / 대사</span>
+                  <span className="section-label">대사</span>
                   <textarea
                     value={draft.dialogue}
                     onChange={(e) => change({ dialogue: e.target.value })}
@@ -877,7 +849,7 @@ function CutEditor({
                   />
                 </label>
                 <label>
-                  <span className="section-label">NOTES / 작업 메모</span>
+                  <span className="section-label">작업 메모</span>
                   <textarea
                     value={draft.notes}
                     onChange={(e) => change({ notes: e.target.value })}
@@ -890,10 +862,10 @@ function CutEditor({
                 <div className="section-toolbar">
                   <span className="section-label">
                     {tab === "draft"
-                      ? "MCP HANDOFF / 작성 요청문"
+                      ? "MCP 전달문"
                       : tab === "work"
-                        ? "WORKING PROMPT / 작업 프롬프트"
-                        : "BASE PROMPT / 기본 프롬프트"}
+                        ? "작업 프롬프트"
+                        : "기본 프롬프트"}
                   </span>
                   <button onClick={copy}>
                     <Copy size={14} />
@@ -967,7 +939,6 @@ function CutEditor({
         <aside className="assets-pane">
           <header>
             <div>
-              <span className="section-label">REFERENCE ASSETS</span>
               <h3>
                 참조 에셋 <span>{selected.length}</span>
               </h3>
@@ -982,9 +953,7 @@ function CutEditor({
             </button>
           </header>
           <p className="assets-help">
-            사용할 자료를 선택하고 태그로 연결하세요.
-            <br />
-            파일명과 경로를 함께 보관합니다.
+            선택한 에셋의 파일명 태그를 삽입하세요.
           </p>
           <div className="asset-scroll">
             {draft.assets.map((a) => (
@@ -1092,10 +1061,10 @@ function CutEditor({
             )}
             <b>
               {saving
-                ? "서버에 저장 중"
+                ? "저장 중"
                 : dirty
                   ? "저장하지 않은 변경"
-                  : "서버 저장 완료"}
+                  : "저장됨"}
             </b>
           </span>
           <small>

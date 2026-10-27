@@ -1,4 +1,9 @@
 import "server-only";
+export class StorageError extends Error {
+  constructor(readonly status: number) {
+    super("파일을 처리하지 못했습니다. 잠시 후 다시 시도해주세요.");
+  }
+}
 export async function storage(path: string, init: RequestInit = {}) {
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!key || !process.env.SUPABASE_URL)
@@ -15,8 +20,7 @@ export async function storage(path: string, init: RequestInit = {}) {
       cache: "no-store",
     },
   );
-  if (!response.ok)
-    throw new Error("파일을 처리하지 못했습니다. 잠시 후 다시 시도해주세요.");
+  if (!response.ok) throw new StorageError(response.status);
   return response;
 }
 export async function preview(key?: string | null) {

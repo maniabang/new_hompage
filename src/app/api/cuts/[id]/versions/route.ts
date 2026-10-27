@@ -27,6 +27,7 @@ export async function GET(
       ...row,
       snapshot: {
         ...row.snapshot,
+        duration: Number(row.snapshot.duration ?? 0),
         ...(row.snapshot.assets
           ? {
               assets: row.snapshot.assets.map(

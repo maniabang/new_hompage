@@ -371,8 +371,14 @@ export function Workbench({ name }: { name: string | null }) {
             </span>
             <button
               className="icon-button"
-              onClick={refresh}
-              disabled={dirty}
+              onClick={() => {
+                if (allow()) {
+                  setDirty(false);
+                  setCut(null);
+                  setLoading(!!selected);
+                  refresh();
+                }
+              }}
               title="최신 내용 불러오기"
               aria-label="새로고침"
             >
@@ -794,6 +800,12 @@ function CutEditor({
       {recovery && (
         <div className="recovery">
           저장하지 않은 로컬 초안이 있습니다.
+          {recovery.version !== cut.version && (
+            <span>
+              서버에 새 버전이 있습니다. 최신 내용과 비교한 뒤 초안을
+              적용해주세요.
+            </span>
+          )}
           <button
             onClick={() => {
               setDraft({ ...recovery, version: cut.version });

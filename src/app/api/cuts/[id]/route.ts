@@ -5,7 +5,7 @@ import { cutDetail } from "@/lib/cutdesk/repository";
 const input = z.object({
   version: z.number().int().positive(),
   code: z.string().regex(/^EP\d{2}_S\d{2}_C\d{3}(?:_?[A-Z]+)?$/),
-  title: z.string().min(1).max(200),
+  title: z.string().min(1).max(2000),
   scene: z.string().max(100),
   status: z.enum([
     "초안",

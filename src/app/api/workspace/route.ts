@@ -13,8 +13,8 @@ export async function GET(request: Request) {
   if (!project) return Response.json({ project: null, episodes: [], cuts: [] });
   const episodes =
     await sql`select e.id,e.code,e.title,count(c.id)::int count,count(c.id) filter(where c.status='확정')::int reviewed from cutdesk.episodes e left join cutdesk.cuts c on c.episode_id=e.id and c.deleted_at is null where e.project_id=${project.id} group by e.id order by e.code`;
-  const cuts = episode
-    ? await sql`select c.id,c.code,c.title,c.scene,c.status,c.duration,c.version,c.updated_at,c.updated_by,c.deleted_at,e.code episode_code,(select count(*)::int from cutdesk.cut_assets ca where ca.cut_id=c.id and ca.selected) asset_count from cutdesk.cuts c join cutdesk.episodes e on e.id=c.episode_id where e.project_id=${project.id} and e.code=${episode} and (${trash} and c.deleted_at is not null or not ${trash} and c.deleted_at is null) order by c.code`
+  const cuts = episode || trash
+    ? await sql`select c.id,c.code,c.title,c.scene,c.status,c.duration,c.version,c.updated_at,c.updated_by,c.deleted_at,e.code episode_code,(select count(*)::int from cutdesk.cut_assets ca where ca.cut_id=c.id and ca.selected) asset_count from cutdesk.cuts c join cutdesk.episodes e on e.id=c.episode_id where e.project_id=${project.id} and (${!episode} or e.code=${episode || ""}) and (${trash} and c.deleted_at is not null or not ${trash} and c.deleted_at is null) order by case when ${trash} then c.deleted_at end desc,c.code`
     : [];
   return Response.json(
     { project, episodes, cuts },

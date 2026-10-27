@@ -108,6 +108,8 @@ try {
     assert.equal((await request(`/api/cuts/${createdId}`,{method:"PATCH",body:JSON.stringify({version:current.version,restore:false})})).status,200);
     const active=await(await request("/api/workspace?episode=EP30")).json() as {cuts:CutSummary[]};assert.ok(!active.cuts.some(c=>c.id===createdId));
     const trash=await(await request("/api/workspace?episode=EP30&trash=1")).json() as {cuts:CutSummary[]};const deleted=trash.cuts.find(c=>c.id===createdId)!;assert.ok(deleted);
+    const allTrash=await(await request("/api/workspace?trash=1")).json() as {cuts:CutSummary[]};assert.ok(allTrash.cuts.some(c=>c.id===createdId));
+    const otherTrash=await(await request("/api/workspace?episode=EP01&trash=1")).json() as {cuts:CutSummary[]};assert.ok(!otherTrash.cuts.some(c=>c.id===createdId));
     assert.equal((await request(`/api/cuts/${createdId}`,{method:"PUT",body:JSON.stringify({...current,version:deleted.version})})).status,409);
     assert.equal((await request(`/api/cuts/${createdId}`,{method:"PATCH",body:JSON.stringify({version:current.version,restore:true})})).status,409);
     assert.equal((await request(`/api/cuts/${createdId}`,{method:"PATCH",body:JSON.stringify({version:deleted.version,restore:true})})).status,200);

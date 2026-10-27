@@ -28,6 +28,7 @@ import {
   Search,
   ShieldCheck,
   Trash2,
+  Undo2,
   Upload,
   X,
 } from "lucide-react";
@@ -132,6 +133,8 @@ export function Workbench({ name }: { name: string | null }) {
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState("전체");
   const [trash, setTrash] = useState(false);
+  const [trashEpisode, setTrashEpisode] = useState("");
+  const [restoring, setRestoring] = useState("");
   const [dirty, setDirty] = useState(false);
   const [loading, setLoading] = useState(false);
   const [newCut, setNewCut] = useState(false);
@@ -146,7 +149,7 @@ export function Workbench({ name }: { name: string | null }) {
     if (!name) return;
     const controller = new AbortController();
     api<{ project: typeof project; episodes: Episode[]; cuts: CutSummary[] }>(
-      `/api/workspace?episode=${episode}&trash=${trash ? "1" : "0"}`,
+      `/api/workspace?episode=${trash ? trashEpisode : episode}&trash=${trash ? "1" : "0"}`,
       { signal: controller.signal },
     )
       .then((d) => {
@@ -164,7 +167,7 @@ export function Workbench({ name }: { name: string | null }) {
         }
       });
     return () => controller.abort();
-  }, [name, episode, trash, nonce]);
+  }, [name, episode, trash, trashEpisode, nonce]);
   useEffect(() => {
     if (!selected) return;
     const controller = new AbortController();
@@ -216,6 +219,24 @@ export function Workbench({ name }: { name: string | null }) {
     if (!allow()) return;
     await api("/api/session", { method: "DELETE" });
     router.refresh();
+  }
+  async function restoreCut(c: CutSummary) {
+    if (restoring) return;
+    setRestoring(c.id);
+    try {
+      await api(`/api/cuts/${c.id}`, {
+        method: "PATCH",
+        body: JSON.stringify({ version: c.version, restore: true }),
+      });
+      setCuts((items) => items.filter((item) => item.id !== c.id));
+      setMessage(`${c.code} 컷을 복원했습니다.`);
+      refresh();
+    } catch (error) {
+      setMessage((error as Error).message);
+      refresh();
+    } finally {
+      setRestoring("");
+    }
   }
   if (!name)
     return (
@@ -307,7 +328,10 @@ export function Workbench({ name }: { name: string | null }) {
           onClick={() => {
             if (allow()) {
               setTrash(false);
-              if (trash) setIndexLoading(true);
+              if (trash) {
+                setIndexLoading(true);
+                setCuts([]);
+              }
               setDirty(false);
               setSelected("");
               setCut(null);
@@ -323,7 +347,11 @@ export function Workbench({ name }: { name: string | null }) {
           onClick={() => {
             if (allow()) {
               setTrash(true);
-              if (!trash) setIndexLoading(true);
+              if (!trash) {
+                setIndexLoading(true);
+                setTrashEpisode("");
+                setCuts([]);
+              }
               setDirty(false);
               setSelected("");
               setCut(null);
@@ -377,8 +405,8 @@ export function Workbench({ name }: { name: string | null }) {
                 <ChevronDown size={12} />
               </summary>
               <div>
-                <a href="/api/export">공동 작업 · 이력 백업</a>
-                <a href="/api/source">이관 원본 JSON 보관본</a>
+                <a href="/api/export">작업 내용·수정 이력 다운로드</a>
+                <a href="/api/source">Drive 원본 다운로드</a>
               </div>
             </details>
             <span className="user-name">{name}</span>
@@ -387,12 +415,12 @@ export function Workbench({ name }: { name: string | null }) {
         <div className="overview">
           <div>
             <h1>{trash ? "휴지통" : project?.title || "제작 관리"}</h1>
-            <span className="cut-total">{project ? `${total}개 컷` : "불러오는 중"}</span>
+            <span className="cut-total">{project && !(trash && indexLoading) ? `${trash ? cuts.length : total}개 컷` : "불러오는 중"}</span>
           </div>
-          <span className="review-summary">
+          {!trash && <span className="review-summary">
             <CheckCheck size={14} />
             확정 {project ? reviewed : "—"}<span>/ {project ? total : "—"}</span>
-          </span>
+          </span>}
         </div>
         {message && (
           <div className="notice" role="alert">
@@ -402,7 +430,21 @@ export function Workbench({ name }: { name: string | null }) {
             </button>
           </div>
         )}
-        <div className="workspace" data-detail={!!selected}>
+        {trash ? (
+          <TrashList
+            cuts={cuts}
+            episodes={episodes}
+            episode={trashEpisode}
+            loading={indexLoading}
+            restoring={restoring}
+            onEpisode={(value) => {
+              setTrashEpisode(value);
+              setCuts([]);
+              setIndexLoading(true);
+            }}
+            onRestore={restoreCut}
+          />
+        ) : <div className="workspace" data-detail={!!selected}>
           <section className="cut-library">
             <div className="library-top">
               <label className="episode-select">
@@ -549,7 +591,7 @@ export function Workbench({ name }: { name: string | null }) {
               </div>
             )}
           </main>
-        </div>
+        </div>}
       </div>
       {newCut && (
         <Modal title="새 컷 만들기" close={() => setNewCut(false)}>
@@ -593,6 +635,57 @@ export function Workbench({ name }: { name: string | null }) {
         </Modal>
       )}
     </div>
+  );
+}
+
+function TrashList({ cuts, episodes, episode, loading, restoring, onEpisode, onRestore }: {
+  cuts: CutSummary[];
+  episodes: Episode[];
+  episode: string;
+  loading: boolean;
+  restoring: string;
+  onEpisode: (value: string) => void;
+  onRestore: (cut: CutSummary) => Promise<void>;
+}) {
+  const [query, setQuery] = useState("");
+  const visible = cuts.filter((c) => `${c.code} ${c.title}`.toLowerCase().includes(query.trim().toLowerCase()));
+  return (
+    <main className="trash-view" aria-label="휴지통">
+      <div className="trash-tools">
+        <div className="searchbox">
+          <Search size={15} />
+          <input aria-label="삭제된 컷 검색" placeholder="컷 번호, 이름 검색" value={query} onChange={(e) => setQuery(e.target.value)} />
+        </div>
+        <select aria-label="휴지통 회차" value={episode} onChange={(e) => onEpisode(e.target.value)}>
+          <option value="">전체 회차</option>
+          {episodes.map((e) => <option key={e.code} value={e.code}>{e.code} · {e.title}</option>)}
+        </select>
+      </div>
+      {loading && !cuts.length ? (
+        <div className="trash-empty" role="status"><Loader2 className="spin" size={22} /><p>불러오는 중입니다.</p></div>
+      ) : !visible.length ? (
+        <div className="trash-empty">
+          <Trash2 size={26} strokeWidth={1.5} />
+          <p>{query || episode ? "조건에 맞는 컷이 없습니다." : "휴지통이 비어 있습니다."}</p>
+        </div>
+      ) : (
+        <ul className="trash-list" aria-label="삭제된 컷">
+          {visible.map((c) => (
+            <li className="trash-row" key={c.id}>
+              <div>
+                <span className="cut-code">{c.code}</span>
+                <h2>{c.title}</h2>
+                <p>{c.deleted_at && date(c.deleted_at)} 삭제 · {c.updated_by}</p>
+              </div>
+              <button className="button" aria-label={`${c.code} 복원`} disabled={!!restoring} onClick={() => onRestore(c)}>
+                {restoring === c.id ? <Loader2 className="spin" size={15} /> : <Undo2 size={15} />}
+                {restoring === c.id ? "복원 중" : "복원"}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </main>
   );
 }
 

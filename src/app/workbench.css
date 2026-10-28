@@ -1551,3 +1551,19 @@ dialog::backdrop {
     transition: none !important;
   }
 }
+
+.prompt-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.prompt-actions button { display: inline-flex; align-items: center; gap: 5px; min-height: 32px; font-size: 11px; color: var(--soft); }
+.chief-review { border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; color: var(--soft); font-size: 12px; line-height: 1.7; }
+.chief-review summary { cursor: pointer; }
+.chief-review p { margin-top: 8px; color: var(--muted); }
+.chief-review ul, .reference-issues { margin: 8px 0 0; padding-left: 18px; font-size: 11px; line-height: 1.7; }
+.reference-issues { color: var(--accent); overflow-wrap: anywhere; }
+.asset-name-copy { color: var(--soft); font-size: 11px; margin-left: 10px; min-height: 32px; }
+@media (max-width: 700px) {
+  .section-toolbar { flex-wrap: wrap; gap: 8px; }
+  .prompt-actions { width: 100%; gap: 12px; }
+  .prompt-actions button { min-height: 36px; }
+}
+.chief-review { overflow-wrap: anywhere; }
+.chief-review textarea { width: 100%; margin-top: 8px; font-size: 12px; line-height: 1.7; }

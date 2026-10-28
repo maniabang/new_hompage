@@ -39,6 +39,7 @@ import type {
   Episode,
   Version,
 } from "@/lib/cutdesk/types";
+import { mcpHandoff, promptIssues, syncAssetPrompt } from "@/lib/cutdesk/prompt";
 
 async function api<T>(url: string, init: RequestInit = {}): Promise<T> {
   const r = await fetch(url, {
@@ -708,7 +709,7 @@ function CutEditor({
   const [saving, setSaving] = useState(false);
   const [mobilePane, setMobilePane] = useState<"prompt" | "assets">("prompt");
   const [tab, setTab] = useState<"prompt" | "work" | "brief" | "draft">(
-    "prompt",
+    cut.work_prompt ? "work" : "prompt",
   );
   const [history, setHistory] = useState<Version[] | null>(null);
   const [library, setLibrary] = useState(false);
@@ -751,27 +752,18 @@ function CutEditor({
     }
   }, [cut.id, cut.version]);
   const selected = draft.assets.filter((a) => a.selected);
+  const referenceIssues = promptIssues(tab === "work" ? draft.work_prompt : tab === "draft" ? draft.prompt_draft : draft.prompt, draft.assets);
+  const updateAssets = (assets: Asset[]) => {
+    change({ assets, work_prompt: syncAssetPrompt(draft.work_prompt || draft.prompt, assets) });
+    setTab("work");
+  };
   const text =
     tab === "draft"
       ? draft.prompt_draft
       : tab === "work"
         ? draft.work_prompt
         : draft.prompt;
-  const references = useMemo(() => {
-    const names = new Map<string, Asset[]>();
-    for (const a of selected) {
-      const n = a.name.trim().toLowerCase();
-      names.set(n, [...(names.get(n) || []), a]);
-    }
-    const tokens = [
-      ...text.matchAll(/@\{([^}]+)\}|@(Image|Audio|Video)\d+\b/gi),
-    ].map((m) => ({ token: m[0], name: m[1]?.trim().toLowerCase() }));
-    return tokens.map((t) => ({
-      ...t,
-      count: t.name ? names.get(t.name)?.length || 0 : 0,
-    }));
-  }, [selected, text]);
-  const issues = references.filter((r) => r.count !== 1);
+  const references = useMemo(() => [...text.matchAll(/@\{([^}]+)\}|@(Image|Audio|Video)\d+\b/gi)], [text]);
   async function save() {
     setSaving(true);
     try {
@@ -793,6 +785,15 @@ function CutEditor({
       onMessage("프롬프트를 복사했습니다.");
     } catch {
       onMessage("텍스트를 선택해 복사해주세요.");
+    }
+  }
+  async function copyRequest() {
+    try {
+      const prompt = tab === "draft" ? draft.work_prompt || draft.prompt : text;
+      await navigator.clipboard.writeText(mcpHandoff(draft, prompt));
+      onMessage("컷 번호·프롬프트·파일명·경로를 담은 MCP 요청문을 복사했습니다.");
+    } catch {
+      onMessage("클립보드를 사용할 수 없습니다. 프롬프트를 선택해 복사해주세요.");
     }
   }
   const insert = (a: Asset) => {
@@ -923,6 +924,15 @@ function CutEditor({
             </button>
           </div>
           <div className="writing-scroll">
+            {draft.chief_review && tab !== "brief" && (
+              <details className="chief-review">
+                <summary>Chief 검토 · r{draft.chief_review.verified_revision} · {draft.chief_review.application === "applied" ? "작업 프롬프트 반영" : draft.chief_review.application === "excluded" ? "생성 제외" : "확인 사항 있음"}</summary>
+                <p>{draft.chief_review.status}</p>
+                {draft.chief_review.issues.length > 0 && <ul>{draft.chief_review.issues.map((issue, i) => <li key={i}>{issue}</li>)}</ul>}
+                <p>최신 원문·작업 편집을 우선하며, 생성 전 실제 첨부 파일을 다시 대조합니다.</p>
+                {draft.chief_review.application !== "applied" && <details><summary>이전 검토안 보기</summary><textarea readOnly aria-label="Chief 참조 정리안" value={draft.chief_review.proposal} rows={6} /></details>}
+              </details>
+            )}
             {tab === "brief" ? (
               <div className="brief-form">
                 <label>
@@ -960,10 +970,11 @@ function CutEditor({
                         ? "작업 프롬프트"
                         : "기본 프롬프트"}
                   </span>
-                  <button onClick={copy}>
-                    <Copy size={14} />
-                    복사
-                  </button>
+                  <div className="prompt-actions">
+                    {tab !== "draft" && <button onClick={() => { updateAssets(draft.assets); onMessage("선택한 파일명과 사용 범위를 작업 프롬프트에 정리했습니다."); }}>참조 정리</button>}
+                    <button onClick={copy} disabled={tab !== "draft" && (referenceIssues.length > 0 || draft.chief_review?.application === "excluded")} title={referenceIssues[0] || "현재 프롬프트 복사"}><Copy size={14} />프롬프트 복사</button>
+                    <button onClick={copyRequest}><Copy size={14} />MCP 요청문 복사</button>
+                  </div>
                 </div>
                 {tab === "draft" && (
                   <p className="field-hint">
@@ -1000,29 +1011,10 @@ function CutEditor({
                     <strong>참조 태그 확인</strong>
                     <span>{references.length}개 태그</span>
                   </div>
-                  {!references.length ? (
-                    <p>파일명 태그를 삽입하면 선택한 에셋과 자동 대조합니다.</p>
-                  ) : !issues.length ? (
-                    <p className="good">
-                      모든 파일명 태그가 선택한 에셋과 일치합니다.
-                    </p>
+                  {!referenceIssues.length ? (
+                    <p className={references.length ? "good" : ""}>{references.length ? "파일명 태그가 선택한 에셋과 일치합니다." : "참조 정리를 누르면 선택한 파일명이 반영됩니다."}</p>
                   ) : (
-                    <>
-                      <p>
-                        연결을 확인할 태그 {issues.length}개 · 번호 태그는
-                        파일명을 확인해주세요.
-                      </p>
-                      <div className="issue-tags">
-                        {issues.map((r, i) => (
-                          <span
-                            key={i}
-                            title={r.count > 1 ? "동명 파일" : "연결 미확인"}
-                          >
-                            {r.token}
-                          </span>
-                        ))}
-                      </div>
-                    </>
+                    <ul className="reference-issues">{referenceIssues.map(issue => <li key={issue}>{issue}</li>)}</ul>
                   )}
                 </div>
               </>
@@ -1077,13 +1069,11 @@ function CutEditor({
                       type="checkbox"
                       checked={a.selected}
                       onChange={(e) =>
-                        change({
-                          assets: draft.assets.map((x) =>
+                        updateAssets(draft.assets.map((x) =>
                             x.id === a.id
                               ? { ...x, selected: e.target.checked }
                               : x,
-                          ),
-                        })
+                          ))
                       }
                     />
                     <strong title={a.name}>{a.name}</strong>
@@ -1096,6 +1086,10 @@ function CutEditor({
                   >
                     @ 태그 삽입
                   </button>
+                  <button className="asset-name-copy" onClick={async () => {
+                    try { await navigator.clipboard.writeText(a.name); onMessage("원본 파일명을 복사했습니다."); }
+                    catch { onMessage("파일명을 선택해 복사해주세요."); }
+                  }}>파일명 복사</button>
                   <details>
                     <summary>경로 · 사용 메모</summary>
                     <p className="asset-path">{a.path}</p>
@@ -1103,20 +1097,16 @@ function CutEditor({
                       aria-label={`${a.name} 사용 메모`}
                       value={a.note}
                       onChange={(e) =>
-                        change({
-                          assets: draft.assets.map((x) =>
+                        updateAssets(draft.assets.map((x) =>
                             x.id === a.id ? { ...x, note: e.target.value } : x,
-                          ),
-                        })
+                          ))
                       }
                       rows={3}
                     />
                     <button
                       className="text-button"
                       onClick={() =>
-                        change({
-                          assets: draft.assets.filter((x) => x.id !== a.id),
-                        })
+                        updateAssets(draft.assets.filter((x) => x.id !== a.id))
                       }
                     >
                       이 컷에서 연결 해제
@@ -1188,8 +1178,9 @@ function CutEditor({
           close={() => setLibrary(false)}
           onMessage={onMessage}
           onSelect={(a) => {
-            if (!draft.assets.some((x) => x.id === a.id))
-              change({ assets: [...draft.assets, a] });
+            updateAssets(draft.assets.some((x) => x.id === a.id)
+              ? draft.assets.map(x => x.id === a.id ? { ...x, selected: true } : x)
+              : [...draft.assets, { ...a, selected: true }]);
             setLibrary(false);
           }}
         />

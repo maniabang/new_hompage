@@ -55,3 +55,14 @@ alter table cutdesk.login_attempts enable row level security;
 revoke all on all tables in schema cutdesk from public,anon,authenticated;
 revoke all on all sequences in schema cutdesk from public,anon,authenticated;
 alter table cutdesk.cuts add column if not exists work_prompt text not null default '';
+
+create table if not exists cutdesk.chief_reviews (
+ cut_id uuid primary key references cutdesk.cuts(id) on delete cascade,
+ source_revision integer not null, verified_revision integer not null,
+ report_checksum text not null, base_prompt_hash text not null,
+ status text not null, application text not null,
+ issues jsonb not null default '[]', proposal text not null,
+ asset_plan jsonb not null default '[]', imported_at timestamptz not null default now()
+);
+alter table cutdesk.chief_reviews enable row level security;
+revoke all on cutdesk.chief_reviews from public,anon,authenticated;

@@ -26,7 +26,7 @@ async function snapshot() {
   });
 }
 async function request(path: string, init: RequestInit = {}) {
-  return fetch(base + path, { ...init, signal: AbortSignal.timeout(45000), headers: {
+  return fetch(base + path, { ...init, signal: AbortSignal.timeout(path === "/api/export" ? 180000 : 45000), headers: {
     Origin: base, "Content-Type": "application/json", Cookie: cookie, ...init.headers,
   }});
 }

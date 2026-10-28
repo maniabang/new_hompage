@@ -13,6 +13,7 @@ export async function GET(request: Request) {
   return Response.json(
     rows.map((a) => ({
       ...a,
+      checksum: /^previews\/([a-f0-9]{64})\.webp$/.exec(a.preview_key || "")?.[1] || a.checksum,
       selected: true,
       note: "",
       preview: signed.get(a.object_key || a.preview_key) || null,

@@ -25,6 +25,7 @@ export type Asset = {
   object_key?: string | null;
 };
 export type Cut = CutSummary & {
+  chief_review?: ChiefReview | null;
   work_prompt: string;
   story: string;
   dialogue: string;
@@ -32,6 +33,15 @@ export type Cut = CutSummary & {
   prompt_draft: string;
   notes: string;
   assets: Asset[];
+};
+export type ChiefReview = {
+  source_revision: number;
+  verified_revision: number;
+  status: string;
+  application: string;
+  issues: string[];
+  proposal: string;
+  assets?: { name: string; path: string; type: string; role: string; scope: string; localSha256?: string }[];
 };
 export type Episode = {
   id: string;

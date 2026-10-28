@@ -88,7 +88,7 @@ export async function PUT(
       mime: data.content_type ?? data.metadata?.mimetype,
       bytes: data.size ?? data.metadata?.size,
     });
-    await db()`update cutdesk.assets set object_key=${p.data.key},preview_key=null,mime=${info.mime},bytes=${info.bytes} where id=${id}`;
+    await db()`update cutdesk.assets set object_key=${p.data.key},preview_key=null,checksum=null,mime=${info.mime},bytes=${info.bytes} where id=${id}`;
     return Response.json({ ok: true });
   } catch (error) {
     const missing = error instanceof StorageError && [400, 404].includes(error.status);

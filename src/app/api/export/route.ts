@@ -18,6 +18,7 @@ export async function GET() {
       await tx`select ca.* from cutdesk.cut_assets ca join cutdesk.cuts c on c.id=ca.cut_id join cutdesk.episodes e on e.id=c.episode_id where e.project_id=${project.id}`;
     const versions =
       await tx`select v.* from cutdesk.versions v join cutdesk.cuts c on c.id=v.cut_id join cutdesk.episodes e on e.id=c.episode_id where e.project_id=${project.id} order by v.id`;
+    const chiefReviews = await tx`select r.* from cutdesk.chief_reviews r join cutdesk.cuts c on c.id=r.cut_id join cutdesk.episodes e on e.id=c.episode_id where e.project_id=${project.id}`;
     return {
       format: "cutdesk-v1",
       exportedAt: new Date().toISOString(),
@@ -27,6 +28,7 @@ export async function GET() {
       assets,
       links,
       versions,
+      chiefReviews,
     };
   });
   return new Response(new Uint8Array(gzipSync(JSON.stringify(data))), {

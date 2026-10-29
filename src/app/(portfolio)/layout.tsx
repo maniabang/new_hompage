@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Roboto, Noto_Sans_KR } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 import { site } from "@/data/portfolio";
 import { CursorFX } from "@/components/CursorFX";
 import { ScrollProvider } from "@/components/ScrollProvider";
